@@ -13,4 +13,19 @@
 Q.what is module?
 Q.what is package in main.go?
 
+# 3.1 Variables(변수)
+
+## 변수만들기
+
+     var name string = "val" 
+     - '생성자' '이름' '타입' = "값" 순으로 선언 가능
+     
+     함수 내에서 변수를 선언할 땐 shortcut이 있다.
+     '이름' := '값'
+     -colon과 등호를 같이쓰면 컴파일러에서 값의 타입을 변수의 타입으로 인식한다
+
+     함수 밖에서 선언할 땐 shorcut을 사용하지 못한다.
+
+     타입은 boolean, string, int 등이 있다.
+
 ---
