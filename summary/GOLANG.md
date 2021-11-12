@@ -27,35 +27,38 @@ a package is a way to group functions, and it's made up of all the files in the 
 
      var name string = "val" 
      - '생성자' '이름' '타입' = "값" 순으로 선언 가능
-     
-     함수 내에서 변수를 선언할 땐 shortcut이 있다.
+
+#### 함수 내에서 변수를 선언할 땐 shortcut이 있다
+
      '이름' := '값'
-     -colon과 등호를 같이쓰면 컴파일러에서 값의 타입을 변수의 타입으로 인식한다
+     #### -colon과 등호를 같이쓰면 컴파일러에서 값의 타입을 변수의 타입으로 인식한다
 
-     함수 밖에서 선언할 땐 shorcut을 사용하지 못한다.
+#### 함수 밖에서 선언할 땐 shorcut을 사용하지 못한다
 
-     타입은 boolean, string, int 등이 있다.
+#### 타입은 boolean, string, int 등이 있다
+
 ---
 
 ## 3.2 Functions(함수)
 
 ### 함수의 선언
 
-     함수를 선언할 땐 함수의 이름, argument의 타입, return 값의 타임을 선언한다.
+#### 함수를 선언할 땐 함수의 이름, argument의 타입, return 값의 타임을 선언한다
+
      ex)
      func nameoffunction (arg int,arg string) int{
          return arg
      }
 
-     같은 tpye의 arguments 여러 개를 배열로 받을 수 있다.
+#### 같은 tpye의 arguments 여러 개를 배열로 받을 수 있다
 
-     배열,string 으로 반복 작업을 하려면 다음과 같이 쓴다.
+#### 배열,string 으로 반복 작업을 하려면 다음과 같이 쓴다
 
-     for index,elem := range "iterator" {
+    for index,elem := range "iterator" {
          /// do something
      }
-     
-     print 할 때 값을 formatting 할 수 있음 binart,digit,hexa,string 등
+
+#### print 할 때 값을 formatting 할 수 있음 binart,digit,hexa,string 등
 
 ---
 
@@ -66,3 +69,21 @@ a package is a way to group functions, and it's made up of all the files in the 
     package for formatting data
 
     fmt.Sprintf()
+
+## 3.4 Array and Slice
+
+    * an Array has certain length (Can't be infinite)
+
+    * a Slice is unlimited array
+
+    * declare and assign
+
+    Array : name := [length] type {el1,el2,...}
+    ex) sampleArray := [3]sting{"str1","str2","str3"}
+
+    Slice name := [] type {el1,el2,...}
+    ex) sampleSlice := []sting{"str1","str2","str3"}
+
+    * we can add more element in a slice by append function
+        append(slice,value) will return a slice that add the new element to original slice
+        인수로 받은 Slice 자체를 바꾸는 게 아니라 요소를 추가한 Slice를 반환함

@@ -25,4 +25,21 @@ func main() {
 
 	sum := sum(1, 2, 3, 4, 5, 6, 7, 8, 9, 1100)
 	fmt.Println(sum)
+
+	foods := [3]string{"kimchi", "sam", "chicken"}
+
+	for _, food := range foods {
+		fmt.Println(food)
+	}
+
+	people := []string{"Antuni", "JJM", "Beast"}
+
+	for i := 0; i < len(people); i++ {
+		fmt.Println(people[i])
+	}
+	more := append(people, "JK")
+
+	println(more[0], more[1], more[2], more[3])
+	println(len(more))
+	println(len(people))
 }
