@@ -87,3 +87,11 @@ a package is a way to group functions, and it's made up of all the files in the 
     * we can add more element in a slice by append function
         append(slice,value) will return a slice that add the new element to original slice
         인수로 받은 Slice 자체를 바꾸는 게 아니라 요소를 추가한 Slice를 반환함
+
+## 3.5 Pointers
+
+    * memory address
+    변수 이름 앖에 &를 붙이면 그 값을 참조하는 게 아니라 메모리 주소(포인터)를 참조함
+    포인터 변수 앞에 *을 붙이면 해당 주소의 값을 참조함
+
+## 3.6 Structs and reciever function

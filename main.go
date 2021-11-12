@@ -2,13 +2,17 @@ package main
 
 import "fmt"
 
-func main() {
-	a := 1234
-	b := a
-	c := &a
-	d := *&a
+type person struct {
+	name      string
+	age       int
+	KoreanAge int
+}
 
-	fmt.Println(a, "\n", b, "\n", c, "\n", d, "\n", *c)
-	a = 4321
-	fmt.Println(a, "\n", b, "\n", c, "\n", d, "\n", *c)
+func (p person) introduce() {
+	fmt.Printf("hello My name is %s and I'm %d specially %d in kirea", p.name, p.age, p.KoreanAge)
+}
+
+func main() {
+	man := person{name: "Ant", KoreanAge: 24, age: 22}
+	man.introduce()
 }
