@@ -1,21 +1,29 @@
-# 3.0 Go Project 시작하기
+# Go lang to Encrypto coin
 
-## go mod 명령어 실행
+## 3.0 Go Project 시작하기
+
+### go mod 명령어 실행
 
     1.go.mod 파일 생성
     - 모듈의 위치 기록: Node.js 의 package.json 과 같은 역할
     - 모듈이 어디에 위치하는지 알려줌
     2.main.go 파일 작성
     -VScode Go extension 사용시 package가 자동으로 import 됨
-    -"fmt" package 의 println 함수로 콘솔에 찍을 수 있음
+    -"fmt" package 의 println 함수로 콘솔에 찍을 수 있음'
+    - main in file main.go function will be execured by default when we run main.go
 
 ---
-Q.what is module?
+Q.what go.mod is for?
+for dependency tracking when we use package from other module
+
 Q.what is package in main.go?
+a package is a way to group functions, and it's made up of all the files in the same directory
 
-# 3.1 Variables(변수)
+---
 
-## 변수만들기
+## 3.1 Variables(변수)
+
+### 변수만들기
 
      var name string = "val" 
      - '생성자' '이름' '타입' = "값" 순으로 선언 가능
@@ -27,5 +35,34 @@ Q.what is package in main.go?
      함수 밖에서 선언할 땐 shorcut을 사용하지 못한다.
 
      타입은 boolean, string, int 등이 있다.
+---
+
+## 3.2 Functions(함수)
+
+### 함수의 선언
+
+     함수를 선언할 땐 함수의 이름, argument의 타입, return 값의 타임을 선언한다.
+     ex)
+     func nameoffunction (arg int,arg string) int{
+         return arg
+     }
+
+     같은 tpye의 arguments 여러 개를 배열로 받을 수 있다.
+
+     배열,string 으로 반복 작업을 하려면 다음과 같이 쓴다.
+
+     for index,elem := range "iterator" {
+         /// do something
+     }
+     
+     print 할 때 값을 formatting 할 수 있음 binart,digit,hexa,string 등
 
 ---
+
+## 3.3 fmt
+
+### package fmt
+
+    package for formatting data
+
+    fmt.Sprintf()
