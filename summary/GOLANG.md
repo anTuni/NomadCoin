@@ -108,3 +108,18 @@ a package is a way to group functions, and it's made up of all the files in the 
 
 * reciever function 선언할 때 structs 이름 앞에 *을 안 붙이면 stucts 값을 참조함.
 structs instance를 참조하려면 * 을 꼭 붙여야 해당하는 reciever function을 호출한 instance를 수정할 수 있음
+
+## 4.1 Our first block
+해쉬 함수의 특성
+
+블록간 체인으로 연결되는 원리
+현재 블록의 데이터와 이전 블록의 Hash를 더해서 같이 Hash 함으로서 
+block struct 만들기 hash와 prevHash, data를 가짐 
+
+sha256 알고리즘으로 hash process
+
+go에 내장된 sha256.Sha256 함수에 data+prevHash (string)를 ([]byte)로 전환하여 전달
+-> string 변수를 slice of byte로 전화하는 방법 []byte(string)
+
+return 값으로 받는 array를 다시 hexadecimal hash string으로 formatting 함
+->fmt.Sprintf("%x",[int]byte)

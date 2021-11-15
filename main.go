@@ -1,16 +1,20 @@
 package main
 
 import (
+	"crypto/sha256"
 	"fmt"
-
-	"github.com/anTuni/NomadCoin/person"
 )
 
+type block struct {
+	data     string
+	hash     string
+	prevHash string
+}
+
 func main() {
-	man := person.Person{}
-	fmt.Println(man)
-	man.SetPersonal("Mentis", 33)
-	fmt.Println(man)
-	man.SetPersonal("Mentissss", 33)
-	fmt.Println(man)
+	genesisBlock := block{"Genesis Block", "", ""}
+	hash := sha256.Sum256([]byte(genesisBlock.data + genesisBlock.prevHash))
+	base16Hash := fmt.Sprintf("%x", hash)
+	genesisBlock.hash = base16Hash
+	fmt.Println(genesisBlock)
 }
