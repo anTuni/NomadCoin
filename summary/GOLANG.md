@@ -95,3 +95,16 @@ a package is a way to group functions, and it's made up of all the files in the 
     포인터 변수 앞에 *을 붙이면 해당 주소의 값을 참조함
 
 ## 3.6 Structs and reciever function
+
+### structs
+
+     * type name struct {    var type }
+     * func (n name) recieverFunction(arg type){    }
+     * func (n *name) recieverFunction(arg type){    }
+
+## 3.7 Structs with Pointers
+
+* package 를 새로 만들었을 때 첫 번째 알파벳이 uppercase(대문자) 인 것만 export 됨
+
+* reciever function 선언할 때 structs 이름 앞에 *을 안 붙이면 stucts 값을 참조함.
+structs instance를 참조하려면 * 을 꼭 붙여야 해당하는 reciever function을 호출한 instance를 수정할 수 있음
