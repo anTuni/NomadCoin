@@ -123,3 +123,11 @@ go에 내장된 sha256.Sha256 함수에 data+prevHash (string)를 ([]byte)로 �
 
 return 값으로 받는 array를 다시 hexadecimal hash string으로 formatting 함
 ->fmt.Sprintf("%x",[int]byte)
+
+## 4.2 Our first blockchain
+
+blockchain struct에 block 저장하는 reciever function 만들기
+
+getLastHash
+addBlock
+getList
