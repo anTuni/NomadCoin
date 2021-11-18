@@ -169,8 +169,18 @@ make a  Server Side render Website with go and go standard
 using http package
 
 ## 5.1 Rendering Templates
+
 using template package
 html templates 파일 parsing and execute
 
 use variables in template
 
+## 5.2 Rendering Blocks ( splice of Block's pointer)
+
+ieterate by splice in template
+
+     {{range Blocks}}
+     {{.Var}}~~~
+     {{end}}
+
+using mvp.css
