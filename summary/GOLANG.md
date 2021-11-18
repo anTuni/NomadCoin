@@ -157,5 +157,20 @@ sync package의 Once.Do func를 사용한다
 
 ## 4.5 Refactoring part Two
 
+New func
+
 1) functiong to get blocks of the blockchain
 2) functiong to append a block to the blockchain
+
+## 5.0 Setup
+
+make a  Server Side render Website with go and go standard
+
+using http package
+
+## 5.1 Rendering Templates
+using template package
+html templates 파일 parsing and execute
+
+use variables in template
+
