@@ -131,3 +131,31 @@ blockchain struct에 block 저장하는 reciever function 만들기
 getLastHash
 addBlock
 getList
+
+## 4.3 Singleton Pattern
+
+Package 만들기 blockchain package -> main.go 안에서 많은 작업이 이루어질 것이기 때문에 정리
+
+Single ton pattern : sharing only one instance in the application
+-> 변수를 직접 공유하지 않음(소문자로 시작함)
+-> blockchain package 안에서만 접근 가능함
+
+
+package를 만들고 변수에 blockchain instance를 할당한다.
+
+package 의 method로 intance가 없으면 할당하고 있으면 인스턴스 반환하는 기능을 추가한다.
+
+Go는 parallel 하게 작동할 수 있기 떄문에 if b == nil 조건문으로 한 번만 실행하도록 하면
+동시에 일어나는 routine 에 대해서 여러번 실행하게 된다 때문에 sync package의 Once.Do func를 사용한다.
+
+Q.What is parallel and routine?
+
+## 4.4 Refactoring part One
+
+sync package의 Once.Do func를 사용한다
+=> 코드의 특정 부분이 한 번만 실행 되도록 하기 위해서
+
+## 4.5 Refactoring part Two
+
+1) functiong to get blocks of the blockchain
+2) functiong to append a block to the blockchain
