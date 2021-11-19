@@ -11,15 +11,16 @@
     <header>
         <h1>{{.PageTitle}}</h1>
     </header>
-    
-    {{range.Blocks}}
-    <section>
-    <ul>
-        <li>Data : {{.Data}} </li>
-        <li>Hash : {{.Hash}} </li>
-        <li>PrevHash : {{.PrevHash}} </li>
-    </ul>
-    </section>
-    {{end}}
+    <main>
+        {{range.Blocks}}
+        <section>
+        <ul>
+            <li>Data : {{.Data}} </li>
+            <li>Hash : {{.Hash}} </li>
+            <li>PrevHash : {{.PrevHash}} </li>
+        </ul>
+        </section>
+        {{end}}
+    </main>
 </body>
 </html>
