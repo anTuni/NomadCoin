@@ -184,3 +184,40 @@ ieterate by splice in template
      {{end}}
 
 using mvp.css
+
+## 5.3 Using partials
+
+html template file에서 반복해서 사용하는 부분을 나눠서 저장하고 불러오기
+
+define partial template
+
+    {{define "name"}}
+    ...template html
+    {{end}} 
+
+Using partial template (Somedata에 변수나 값을 직접 전달할 수 있다.)
+
+    {{tempalte "name" somedata}}
+    ex 1) {{tempalte "name" .Pagetitle}}
+    ex 2) {{tempalte "name" "Title"}}
+
+load all template files in main func
+
+    pattern
+    templates = template.Must(template.ParseGlob(templateDIr + "pages/*.gohtml"))
+    templates = template.Must(templates.ParseGlob(templateDIr + "partials/*. gohtml"))
+
+excute template with defined name in HandleFunc
+
+    templates.ExecuteTemplate(rw, "add", nil)
+
+## 5.4  Adding Blocks
+
+handling http request
+
+r.Method 값에 따라 분기.
+request body 값 읽기
+
+    r.ParseForm()
+    data := r.Form.Get("blockData")
+Q.r.Form is a Map, then what is the map type?
