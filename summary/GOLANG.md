@@ -107,14 +107,16 @@ a package is a way to group functions, and it's made up of all the files in the 
 * package 를 새로 만들었을 때 첫 번째 알파벳이 uppercase(대문자) 인 것만 export 됨
 
 * reciever function 선언할 때 structs 이름 앞에 *을 안 붙이면 stucts 값을 참조함.
+
 structs instance를 참조하려면 * 을 꼭 붙여야 해당하는 reciever function을 호출한 instance를 수정할 수 있음
 
 ## 4.1 Our first block
+
 해쉬 함수의 특성
 
 블록간 체인으로 연결되는 원리
-현재 블록의 데이터와 이전 블록의 Hash를 더해서 같이 Hash 함으로서 
-block struct 만들기 hash와 prevHash, data를 가짐 
+현재 블록의 데이터와 이전 블록의 Hash를 더해서 같이 Hash 함으로서
+block struct 만들기 hash와 prevHash, data를 가짐
 
 sha256 알고리즘으로 hash process
 
@@ -139,7 +141,6 @@ Package 만들기 blockchain package -> main.go 안에서 많은 작업이 이�
 Single ton pattern : sharing only one instance in the application
 -> 변수를 직접 공유하지 않음(소문자로 시작함)
 -> blockchain package 안에서만 접근 가능함
-
 
 package를 만들고 변수에 blockchain instance를 할당한다.
 
@@ -221,3 +222,15 @@ request body 값 읽기
     r.ParseForm()
     data := r.Form.Get("blockData")
 Q.r.Form is a Map, then what is the map type?
+
+## 5.6 Recap http sever code
+
+http response code 308 -> redirect
+
+## 6.0 REST API Setup
+
+거래, 마이닝 등을 위한 확인
+GO 에서 JSON 사용하기
+
+json package 의 Marshal() 함수 go->JSON , Unmarshal() 함수 JSON ->go 
+로 데이터 형식을 변환
