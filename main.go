@@ -5,16 +5,15 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-
-	"github.com/anTuni/NomadCoin/utils"
 )
 
 const port string = ":4000"
 
 type URLDescription struct {
-	URL         string
-	Method      string
-	Description string
+	URL         string `json:"url"`
+	Method      string `json:"method"`
+	Description string `json:"description"`
+	Payload     string `json:"payload,omitempty"`
 }
 
 func home(rw http.ResponseWriter, r *http.Request) {
@@ -26,16 +25,15 @@ func home(rw http.ResponseWriter, r *http.Request) {
 			Description: "See Documentation",
 		},
 	}
-	byte, err := json.Marshal(data)
-	utils.HandleErr(err)
-	fmt.Printf("%s", byte)
+	rw.Header().Add("Content-Type", "application/json")
+	json.NewEncoder(rw).Encode(data)
 }
 
 func main() {
 
 	fmt.Printf("Listen on %s", port)
 
-	http.HandleFunc("/add", home)
+	http.HandleFunc("/", home)
 
 	log.Fatal(http.ListenAndServe(port, nil))
 }

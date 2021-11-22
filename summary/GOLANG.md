@@ -232,5 +232,33 @@ http response code 308 -> redirect
 거래, 마이닝 등을 위한 확인
 GO 에서 JSON 사용하기
 
-json package 의 Marshal() 함수 go->JSON , Unmarshal() 함수 JSON ->go 
-로 데이터 형식을 변환
+json package 의 Marshal() 함수 go->JSON , Unmarshal() 함수 JSON ->go로 데이터 형식을 변환
+
+## 6.1 Marshal and Field Tags
+
+http 요청에 텍스트 response
+
+    fmt.Fprint... 
+
+JSON 형식으로 response 하기 -> response header 수정
+
+     http.ResponseWriter.Header().Add("Content-Type","application/json")
+
+response json in 3steps(3Lines of code)
+
+    1)Marshal 함수로 go-> json 변환
+    2)err 핸들링
+    3)Fprintf() 로 출력
+
+response json in 1steps(1Lines of code)
+
+    json.NewEncoder().Encode(...data)
+
+json key(field) 값을 다 lowercase로 바꾸는 방법 (Field tags)
+
+1) struct type 정의 할 때 각 키마다 json 응답시에 보여질 field key 명시.
+null 값일 때 field 생략, field  항상 생략 가능
+{
+    Data string `json:"data,omitempty"`
+    Data string `json:"-"`
+}
