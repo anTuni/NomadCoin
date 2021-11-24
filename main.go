@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+
+	"github.com/anTuni/NomadCoin/blockchain"
 )
 
 const port string = ":4000"
@@ -23,6 +25,10 @@ type URLDescription struct {
 	Payload     string `json:"payload,omitempty"`
 }
 
+type AddingBlock struct {
+	Message string
+}
+
 func documentation(rw http.ResponseWriter, r *http.Request) {
 	fmt.Println("Handler")
 	data := []URLDescription{
@@ -33,15 +39,33 @@ func documentation(rw http.ResponseWriter, r *http.Request) {
 		},
 		{
 			URL:         "/blocks",
-			Method:      "Post",
-			Description: "add a block to blockchain",
+			Method:      "GET",
+			Description: "Get all blocks",
+		},
+		{
+			URL:         "/blocks",
+			Method:      "POST",
+			Description: "Add a block to blockchain",
 			Payload:     "data:String",
 		},
 	}
 	rw.Header().Add("Content-Type", "application/json")
-	fmt.Println(data)
 
 	json.NewEncoder(rw).Encode(data)
+}
+
+func blocks(rw http.ResponseWriter, r *http.Request) {
+
+	switch r.Method {
+	case "GET":
+		rw.Header().Add("Content-Type", "application/json")
+		json.NewEncoder(rw).Encode(blockchain.GetBlockchain().AllBolocks())
+	case "POST":
+		var addingBlock AddingBlock
+		json.NewDecoder(r.Body).Decode(&addingBlock)
+		blockchain.GetBlockchain().AddBlock(addingBlock.Message)
+		rw.WriteHeader(http.StatusCreated)
+	}
 }
 
 func main() {
@@ -49,6 +73,7 @@ func main() {
 	fmt.Printf("Listen on %s", port)
 
 	http.HandleFunc("/", documentation)
+	http.HandleFunc("/blocks", blocks)
 
 	log.Fatal(http.ListenAndServe(port, nil))
 }

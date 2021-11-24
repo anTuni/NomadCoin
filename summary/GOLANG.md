@@ -273,3 +273,10 @@ Stringers interface를 사용한다.-> Struct의 reciever func을 정해진 규�
 fmt의 print 함수로 Struct를 출력하려고 할 때 String Method 가 있는지 확인하고 있으면 그 method의 return value를 출력함
 
 URL type 을 선언 하고 TextMarshal interface를 사용
+
+## 6.3 JSON Decode
+
+POST,GET method to /blocks
+
+recieve data from POST Request body into struct
+ex) json.NewDecoder(r.Body).Decode(&struct)
