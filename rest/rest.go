@@ -12,39 +12,39 @@ import (
 
 var port string
 
-type URL string
+type url string
 
-func (u URL) MarshalText() ([]byte, error) {
+func (u url) MarshalText() ([]byte, error) {
 	url := fmt.Sprintf("http://localhost%s%s", port, u)
 	return []byte(url), nil
 }
 
-type URLDescription struct {
-	URL         URL    `json:"url"`
+type urlDescription struct {
+	URL         url    `json:"url"`
 	Method      string `json:"method"`
 	Description string `json:"description"`
 	Payload     string `json:"payload,omitempty"`
 }
 
-type AddingBlock struct {
+type addingBlock struct {
 	Message string
 }
 
 func documentation(rw http.ResponseWriter, r *http.Request) {
 	fmt.Println("Handler")
-	data := []URLDescription{
+	data := []urlDescription{
 		{
-			URL:         "/",
+			URL:         url("/"),
 			Method:      "GET",
 			Description: "See Documentation",
 		},
 		{
-			URL:         "/blocks",
+			URL:         url("/blocks"),
 			Method:      "GET",
 			Description: "Get all blocks",
 		},
 		{
-			URL:         "/blocks",
+			URL:         url("/blocks"),
 			Method:      "POST",
 			Description: "Add a block to blockchain",
 			Payload:     "data:String",
@@ -62,7 +62,7 @@ func blocks(rw http.ResponseWriter, r *http.Request) {
 		rw.Header().Add("Content-Type", "application/json")
 		json.NewEncoder(rw).Encode(blockchain.GetBlockchain().AllBolocks())
 	case "POST":
-		var addingBlock AddingBlock
+		var addingBlock addingBlock
 		utils.HandleErr(json.NewDecoder(r.Body).Decode(&addingBlock))
 		blockchain.GetBlockchain().AddBlock(addingBlock.Message)
 		rw.WriteHeader(http.StatusCreated)
