@@ -7,6 +7,7 @@ import (
 	"net/http"
 
 	"github.com/anTuni/NomadCoin/blockchain"
+	"github.com/anTuni/NomadCoin/utils"
 )
 
 const port string = ":4000"
@@ -62,7 +63,7 @@ func blocks(rw http.ResponseWriter, r *http.Request) {
 		json.NewEncoder(rw).Encode(blockchain.GetBlockchain().AllBolocks())
 	case "POST":
 		var addingBlock AddingBlock
-		json.NewDecoder(r.Body).Decode(&addingBlock)
+		utils.HandleErr(json.NewDecoder(r.Body).Decode(&addingBlock))
 		blockchain.GetBlockchain().AddBlock(addingBlock.Message)
 		rw.WriteHeader(http.StatusCreated)
 	}
