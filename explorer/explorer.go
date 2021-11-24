@@ -10,7 +10,6 @@ import (
 )
 
 const (
-	port        string = ":4000"
 	templateDIr string = "explorer/templates/"
 )
 
@@ -38,11 +37,11 @@ func home(rw http.ResponseWriter, r *http.Request) {
 	templates.ExecuteTemplate(rw, "home", data)
 }
 
-func Start() {
+func Start(port int) {
 	templates = template.Must(template.ParseGlob(templateDIr + "pages/*.gohtml"))
 	templates = template.Must(templates.ParseGlob(templateDIr + "partials/*.gohtml"))
 	http.HandleFunc("/", home)
 	http.HandleFunc("/add", add)
-	fmt.Printf("Listening on http://localhost%s\n", port)
-	log.Fatal(http.ListenAndServe(port, nil))
+	fmt.Printf("Listening on http://localhost:%d\n", port)
+	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", port), nil))
 }

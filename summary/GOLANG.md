@@ -280,3 +280,14 @@ POST,GET method to /blocks
 
 recieve data from POST Request body into struct
 ex) json.NewDecoder(r.Body).Decode(&struct)
+
+## 6.4 NewServeMux
+
+* go routine으로 http server 동시에 실행하기
+
+* 서로 다른 두 port를 열어 http 서버를 실행할 때
+서로 다른 multiflexer를 정의 해줘야한다.
+기본적으로 DefaultMultiflexer를 사용하기 때문에 같은 url pattern을 사용할 경우 충돌이 난다.
+http package의 NewServeMux 함수로 새로운 multiflexer를 초기화 할 수 있고
+http request handler를 정의 할 때 새로 초기화 한 multiflexer를 사용한다.
+
