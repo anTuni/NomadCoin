@@ -291,3 +291,13 @@ ex) json.NewDecoder(r.Body).Decode(&struct)
 http package의 NewServeMux 함수로 새로운 multiflexer를 초기화 할 수 있고
 http request handler를 정의 할 때 새로 초기화 한 multiflexer를 사용한다.
 
+## 6.5 GorillaMux ( install and use first dependency)
+
+to recieve http parameter by url
+
+1) Install Grilla/mux package from github
+2) http.ServeMux를 mux.NewRouter()로 수정
+mux.NewRouter()에 의해 반환되는 Multiflexer는 URL에 규칙을 정할 수 있고, mux.Vars(r http.request) map로 url parameter를 가져올 수 있다.
+또 Method를 정할 수 있다.
+
+mux.Vars() 함수는 map을 반환한다.

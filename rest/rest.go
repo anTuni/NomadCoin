@@ -8,6 +8,7 @@ import (
 
 	"github.com/anTuni/NomadCoin/blockchain"
 	"github.com/anTuni/NomadCoin/utils"
+	"github.com/gorilla/mux"
 )
 
 var port string
@@ -39,6 +40,12 @@ func documentation(rw http.ResponseWriter, r *http.Request) {
 			Description: "See Documentation",
 		},
 		{
+			URL:         url("/block"),
+			Method:      "GET",
+			Description: "Get a block",
+			Payload:     "id:int",
+		},
+		{
 			URL:         url("/blocks"),
 			Method:      "GET",
 			Description: "Get all blocks",
@@ -68,14 +75,19 @@ func blocks(rw http.ResponseWriter, r *http.Request) {
 		rw.WriteHeader(http.StatusCreated)
 	}
 }
+func block(rw http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	fmt.Println(vars)
+}
 func Start(aPort int) {
-	handler := http.NewServeMux()
+	router := mux.NewRouter()
 
 	port := fmt.Sprintf(":%d", aPort)
 	fmt.Printf("Listen on %s", port)
 
-	handler.HandleFunc("/", documentation)
-	handler.HandleFunc("/blocks", blocks)
+	router.HandleFunc("/", documentation).Methods("GET")
+	router.HandleFunc("/blocks", blocks).Methods("GET", "POST")
+	router.HandleFunc("/blocks/{id:[0-9]+}", block).Methods("GET")
 
-	log.Fatal(http.ListenAndServe(port, handler))
+	log.Fatal(http.ListenAndServe(port, router))
 }
