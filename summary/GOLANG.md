@@ -310,3 +310,9 @@ block에 Height 추가
 GetBlock(height int) *block 함수 생성
 
 url parameter를 int로 변환하고 함수 호출
+
+## 6.7 error hnadling
+
+GetBlock() 함수에서 전달받은 height 가 총 len보다 클 때 에러 보여주기
+errors.New() 로 error type 변수 만들어서 반환하기
+error 변수 formmatting 해서 json response하기
