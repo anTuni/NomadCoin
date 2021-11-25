@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"strconv"
 
 	"github.com/anTuni/NomadCoin/blockchain"
 	"github.com/anTuni/NomadCoin/utils"
@@ -77,7 +78,11 @@ func blocks(rw http.ResponseWriter, r *http.Request) {
 }
 func block(rw http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
-	fmt.Println(vars)
+	height, err := strconv.Atoi(vars["height"])
+	utils.HandleErr(err)
+	block := blockchain.GetBlockchain().GetBolock(height)
+
+	json.NewEncoder(rw).Encode(block)
 }
 func Start(aPort int) {
 	router := mux.NewRouter()
@@ -87,7 +92,7 @@ func Start(aPort int) {
 
 	router.HandleFunc("/", documentation).Methods("GET")
 	router.HandleFunc("/blocks", blocks).Methods("GET", "POST")
-	router.HandleFunc("/blocks/{id:[0-9]+}", block).Methods("GET")
+	router.HandleFunc("/blocks/{height:[0-9]+}", block).Methods("GET")
 
 	log.Fatal(http.ListenAndServe(port, router))
 }

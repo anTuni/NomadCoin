@@ -301,3 +301,12 @@ mux.NewRouter()에 의해 반환되는 Multiflexer는 URL에 규칙을 정할 �
 또 Method를 정할 수 있다.
 
 mux.Vars() 함수는 map을 반환한다.
+
+## 6.6 Atoi
+
+url parameter로 받은 string 을 interger로 변환하여 blockchain의 특정 block 조회하기
+
+block에 Height 추가
+GetBlock(height int) *block 함수 생성
+
+url parameter를 int로 변환하고 함수 호출
