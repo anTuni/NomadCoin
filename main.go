@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"os"
 )
@@ -16,12 +17,20 @@ func main() {
 	if len(os.Args) < 2 {
 		usage()
 	}
+
+	rest := flag.NewFlagSet("rest", flag.ExitOnError)
+	portFlag := rest.Int("port", 4000, "Set the port of server")
+
 	switch os.Args[1] {
 	case "explorer":
 		fmt.Printf("Start explorer server\n")
 	case "rest":
-		fmt.Printf("Start RESTful API server\n")
+		rest.Parse(os.Args[2:])
 	default:
 		usage()
+	}
+
+	if rest.Parsed() {
+		fmt.Println(*portFlag)
 	}
 }

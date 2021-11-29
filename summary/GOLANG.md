@@ -348,3 +348,11 @@ Command Line Interface
 명령어를 입력해서 코드를 실행하는 것.
 
 os.Args로 입력한 command parsing하기
+
+## 7.2 FlagSet
+
+flag.NewFlagSet() 로 flag 파싱하기
+
+    flag 란?
+    명령줄에서 '-'을 붙여서 전달할 인자를 명시하는 부분
+    ex) go run main.go -port=4000
