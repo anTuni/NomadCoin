@@ -316,3 +316,28 @@ url parameter를 int로 변환하고 함수 호출
 GetBlock() 함수에서 전달받은 height 가 총 len보다 클 때 에러 보여주기
 errors.New() 로 error type 변수 만들어서 반환하기
 error 변수 formmatting 해서 json response하기
+
+adapter pattern
+
+http.Handler는 ServeHttp(http.ResponseWriter, *http.Request) 메소드로 구현되는 인터페이스이다.
+
+http.Handler 인터페이스를 구현하려면
+타입을 선언하고 ServeHttp(http.ResponseWriter, *http.Request)를 구현해야한다.
+
+하지만 http.HandlerFunc 타입이 있다.
+이 타입은 func(http.ResponseWriter, *http.Request) 타입의 value를 가진다
+
+때문에 따로 타입을 선언하고 메소드를 구현할 필요없이 http.HandlerFunc 타입의 함수값을 선언해주면 된다.
+
+## Extra explaing about interface
+
+interface는 무엇인가.
+Go 프로그램은 package 단위로 구성된다.
+Package A,B,C 가 있다고 하자
+package A에서는 type I interface를 M() 메소드를 가짐으로 정의하고
+Af 함수는 value of type I interface 를 argument로 받아 I interface의 method를 실행한다.
+
+package B 에서 type B가 있고 이 type B는 M()메소드를 가진다.
+package C 에서 type C가 있고 이 type C는 M()메소드를 가진다.
+
+B,C 모두 package A를 import 하고 함수 Af에 각각 type B,type C를 argumnet로 전달해 실행한다.
