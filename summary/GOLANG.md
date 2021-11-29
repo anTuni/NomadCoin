@@ -341,3 +341,10 @@ package B 에서 type B가 있고 이 type B는 M()메소드를 가진다.
 package C 에서 type C가 있고 이 type C는 M()메소드를 가진다.
 
 B,C 모두 package A를 import 하고 함수 Af에 각각 type B,type C를 argumnet로 전달해 실행한다.
+
+## 7.0 CLI 7.1Parsing Command
+
+Command Line Interface
+명령어를 입력해서 코드를 실행하는 것.
+
+os.Args로 입력한 command parsing하기
