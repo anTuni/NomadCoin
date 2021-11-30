@@ -349,10 +349,12 @@ Command Line Interface
 
 os.Args로 입력한 command parsing하기
 
-## 7.2 FlagSet
+## 7.2 FlagSet 7.3 flag
 
 flag.NewFlagSet() 로 flag 파싱하기
 
     flag 란?
     명령줄에서 '-'을 붙여서 전달할 인자를 명시하는 부분
     ex) go run main.go -port=4000
+
+command line flag 받아서 알맞은 작업 실행하기
