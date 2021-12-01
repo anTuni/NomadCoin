@@ -368,7 +368,16 @@ command line flag 받아서 알맞은 작업 실행하기
 ## 8.1 Creating the Database
 
 데이터 베이스 만들기
-bolt.Open(...) 으로 데이터베이스를 초기화 한다. 
+bolt.Open(...) 으로 데이터베이스를 초기화 한다.
 .db 파일을 해당 directory에 만든다.
 
 RDB의 테이블 개념으로 Bucket 이 있다.
+
+## 8.2 A New Blockchain
+
+divide blockchain code in two part
+the one is part of Block and another is of Chain
+
+Block part will have struct that have many information of the Block(like Data,Hash,Previous Hash,Transaction, Height ... )
+
+Chain part will have NewestHash and Height of the BlockChain
