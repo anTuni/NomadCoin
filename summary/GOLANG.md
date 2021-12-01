@@ -358,3 +358,17 @@ flag.NewFlagSet() 로 flag 파싱하기
     ex) go run main.go -port=4000
 
 command line flag 받아서 알맞은 작업 실행하기
+
+## 8.0 Database introduction
+
+블록체인 데이터를 메모리에 저장할 순 없기 때문에 데이터 베이스에 저장한다.
+이 강의에서는 Bolt라는 데이터베이스를 사용한다.
+"key":"value" 형태로 저장되는데 더 이상 업데이트가 없다.
+
+## 8.1 Creating the Database
+
+데이터 베이스 만들기
+bolt.Open(...) 으로 데이터베이스를 초기화 한다. 
+.db 파일을 해당 directory에 만든다.
+
+RDB의 테이블 개념으로 Bucket 이 있다.
