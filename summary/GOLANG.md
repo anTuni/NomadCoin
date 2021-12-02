@@ -381,3 +381,20 @@ the one is part of Block and another is of Chain
 Block part will have struct that have many information of the Block(like Data,Hash,Previous Hash,Transaction, Height ... )
 
 Chain part will have NewestHash and Height of the BlockChain
+
+## 8.3 Saving a Block
+
+블록을 데이터베이스에 저장하기 위해 hash와 data를 []byte type으로 받아
+hash를 key 값으로 data를 value로 저장
+=> DB instance method 사용
+
+block에서 db의 저장함수를 호출, hash와 data를 인자로 전달해야함
+->data는 블록 자체를 []byte type 으로 encoding 해야함
+
+gob  package로 encoding하기
+byte.Buffer type의 변수 선언
+gob.NewEncoder()로 Encoder initializing
+encoder instancer 의 Encode() 메소드 사용= > error handling 후
+
+byte.Buffer type에 저장된 []byte type 반환
+

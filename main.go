@@ -1,8 +1,9 @@
 package main
 
-import "github.com/anTuni/NomadCoin/cli"
+import (
+	"github.com/anTuni/NomadCoin/blockchain"
+)
 
 func main() {
-	cli.Start()
-
+	blockchain.Blockchain()
 }
