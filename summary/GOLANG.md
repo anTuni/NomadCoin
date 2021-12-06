@@ -398,3 +398,14 @@ encoder instancer 의 Encode() 메소드 사용= > error handling 후
 
 byte.Buffer type에 저장된 []byte type 반환
 
+## 8.4 Persisting Ther BlockChain
+
+블록체인을 저장하기위해
+똑같은 작업 필요 data를 byte로 전환하는 함수 만들기
+=> utils 함수로 만듬
+
+함수 선언시 argment로 어떤 형태든 다 받을 때
+func NameOfFunc (i interface{}) {...}
+interface는 base type 이라서 어떤 type이든 다 받을 수 있음
+형태로 씀
+
