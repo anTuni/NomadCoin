@@ -1,6 +1,9 @@
 package blockchain
 
 import (
+	"bytes"
+	"encoding/gob"
+	"fmt"
 	"sync"
 
 	"github.com/anTuni/NomadCoin/db"
@@ -15,6 +18,11 @@ type blockchain struct {
 var b *blockchain
 var once sync.Once
 
+func (b *blockchain) restore(data []byte) {
+	decoder := gob.NewDecoder(bytes.NewReader(data))
+	err := decoder.Decode(b)
+	utils.HandleErr(err)
+}
 func (b *blockchain) persist() {
 	db.SaveBlockchain(utils.ToBytes(b))
 }
@@ -30,8 +38,16 @@ func Blockchain() *blockchain {
 		once.Do(
 			func() {
 				b = &blockchain{"", 0}
-				b.AddBlock("Genesis Block")
+				checkpoint := db.Checkpoint()
+				if checkpoint == nil {
+					b.AddBlock("Genesis Block")
+				} else {
+					fmt.Println("Restoring...")
+					b.restore(checkpoint)
+				}
 			})
 	}
+	fmt.Printf("Newest Hash:%s \nHeight: %d\n", b.NewestHash, b.Height)
+
 	return b
 }

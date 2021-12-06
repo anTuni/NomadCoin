@@ -409,3 +409,11 @@ func NameOfFunc (i interface{}) {...}
 interface는 base type 이라서 어떤 type이든 다 받을 수 있음
 형태로 씀
 
+## 8.5  Restoring the Blockchain
+
+블록체인 initializing 할 때 이미 저장된 내용 확인하고
+chain 값 업데이트하기
+
+db로부터 checkpoint 존재여부 확인
+=>nil 값일 땐 첫 블록 만들기
+=>checkpoint 존재 시 []byte 로 저장 돼있기 때문에 복원 메모리상 블록체인으로 저장
