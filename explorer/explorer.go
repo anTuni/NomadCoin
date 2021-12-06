@@ -15,10 +15,10 @@ const (
 
 var templates *template.Template
 
-type homeData struct {
-	PageTitle string
-	Blocks    []*blockchain.Block
-}
+// type homeData struct {
+// 	PageTitle string
+// 	Blocks    []*blockchain.Block
+// }
 
 func add(rw http.ResponseWriter, r *http.Request) {
 	switch r.Method {
@@ -27,14 +27,15 @@ func add(rw http.ResponseWriter, r *http.Request) {
 	case "POST":
 		r.ParseForm()
 		data := r.Form.Get("blockData")
-		blockchain.GetBlockchain().AddBlock(data)
+		blockchain.Blockchain().AddBlock(data)
 		http.Redirect(rw, r, "/", http.StatusPermanentRedirect)
 	}
 
 }
 func home(rw http.ResponseWriter, r *http.Request) {
-	data := homeData{"Home", blockchain.GetBlockchain().AllBolocks()}
-	templates.ExecuteTemplate(rw, "home", data)
+	return
+	// data := homeData{"Home", blockchain.GetBlockchain().AllBolocks()}
+	// templates.ExecuteTemplate(rw, "home", data)
 }
 
 func Start(port int) {
