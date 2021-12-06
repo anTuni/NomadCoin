@@ -417,3 +417,15 @@ chain 값 업데이트하기
 db로부터 checkpoint 존재여부 확인
 =>nil 값일 땐 첫 블록 만들기
 =>checkpoint 존재 시 []byte 로 저장 돼있기 때문에 복원 메모리상 블록체인으로 저장
+
+## 8.6 Restoring Block
+
+find a Block from a hash
+
+1) requset a block with hash string from URL
+2) Get block from database with that hash
+3) restore a block  from []byte and return
+
+database로부터 온 []byte type의 데이터로 부터 특정 struct type의 데이터를 얻기 위해서
+gob.Newdecoder().Decode()를 사용한다.
+Decode() 함수는 i interface{}의 "Pointer"를 인자로 받아서 해당 포인터에 값을 저장한다.

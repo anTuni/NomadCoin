@@ -5,10 +5,8 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	"strconv"
 
 	"github.com/anTuni/NomadCoin/blockchain"
-	"github.com/anTuni/NomadCoin/utils"
 	"github.com/gorilla/mux"
 )
 
@@ -68,20 +66,21 @@ func blocks(rw http.ResponseWriter, r *http.Request) {
 
 	switch r.Method {
 	case "GET":
-		json.NewEncoder(rw).Encode(blockchain.GetBlockchain().AllBolocks())
+		return
+		// json.NewEncoder(rw).Encode(blockchain.GetBlockchain().AllBolocks())
 	case "POST":
-		var addingBlock addingBlock
-		utils.HandleErr(json.NewDecoder(r.Body).Decode(&addingBlock))
-		blockchain.GetBlockchain().AddBlock(addingBlock.Message)
-		rw.WriteHeader(http.StatusCreated)
+		return
+		// var addingBlock addingBlock
+		// utils.HandleErr(json.NewDecoder(r.Body).Decode(&addingBlock))
+		// blockchain.GetBlockchain().AddBlock(addingBlock.Message)
+		// rw.WriteHeader(http.StatusCreated)
 	}
 }
 func block(rw http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
-	height, err := strconv.Atoi(vars["height"])
-	utils.HandleErr(err)
+	hash := vars["hash"]
 
-	block, err := blockchain.GetBlockchain().GetBolock(height)
+	block, err := blockchain.FindBlock(hash)
 	if err == blockchain.ErrorNotFound {
 		json.NewEncoder(rw).Encode(errorMessage{fmt.Sprint(err)})
 	} else {
@@ -102,7 +101,7 @@ func Start(aPort int) {
 	router.Use(jsonContentMiddleware)
 	router.HandleFunc("/", documentation).Methods("GET")
 	router.HandleFunc("/blocks", blocks).Methods("GET", "POST")
-	router.HandleFunc("/blocks/{height:[0-9]+}", block).Methods("GET")
+	router.HandleFunc("/blocks/{hash:[a-f0-9]+}", block).Methods("GET")
 
 	log.Fatal(http.ListenAndServe(port, router))
 }
