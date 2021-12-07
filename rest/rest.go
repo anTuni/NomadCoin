@@ -95,12 +95,12 @@ func jsonContentMiddleware(next http.Handler) http.Handler {
 func Start(aPort int) {
 	router := mux.NewRouter()
 
-	port := fmt.Sprintf(":%d", aPort)
+	port = fmt.Sprintf(":%d", aPort)
 	fmt.Printf("Listen on %s", port)
 	router.Use(jsonContentMiddleware)
 	router.HandleFunc("/", documentation).Methods("GET")
 	router.HandleFunc("/blocks", blocks).Methods("GET", "POST")
-	router.HandleFunc("/blocks/{hash:[a-f0-9]+}", block).Methods("GET")
+	router.HandleFunc("/block/{hash:[a-f0-9]+}", block).Methods("GET")
 
 	log.Fatal(http.ListenAndServe(port, router))
 }
