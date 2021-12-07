@@ -3,7 +3,7 @@ package cli
 import (
 	"flag"
 	"fmt"
-	"os"
+	"runtime"
 
 	"github.com/anTuni/NomadCoin/explorer"
 	"github.com/anTuni/NomadCoin/rest"
@@ -14,7 +14,7 @@ func usage() {
 	fmt.Printf("Please use Commands below :\n\n")
 	fmt.Printf("explorer : Start http server\n")
 	fmt.Printf("rest : Start RESTful API sever\n")
-	os.Exit(0)
+	runtime.Goexit()
 }
 func Start() {
 

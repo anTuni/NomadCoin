@@ -429,3 +429,10 @@ find a Block from a hash
 database로부터 온 []byte type의 데이터로 부터 특정 struct type의 데이터를 얻기 위해서
 gob.Newdecoder().Decode()를 사용한다.
 Decode() 함수는 i interface{}의 "Pointer"를 인자로 받아서 해당 포인터에 값을 저장한다.
+
+## 8.7 All Blocks
+
+func for closing Database
+
+Get all blocks using loop and func getting a block
+with initial value of blockchain's NewestHash start looping to find all blocks
