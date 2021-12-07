@@ -436,3 +436,12 @@ func for closing Database
 
 Get all blocks using loop and func getting a block
 with initial value of blockchain's NewestHash start looping to find all blocks
+
+## 8.8 recap Chapter 8 Database
+
+Implement persistence of Blockchain with database
+
+Save Block and state of Chain on Database ( bucket of Bolt DB)
+
+Restoring from Database's bytes data
+ 
