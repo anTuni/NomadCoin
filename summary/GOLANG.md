@@ -444,4 +444,12 @@ Implement persistence of Blockchain with database
 Save Block and state of Chain on Database ( bucket of Bolt DB)
 
 Restoring from Database's bytes data
- 
+
+## 9.0 Introduction to PoW
+
+블록을 추가하기 어렵게 하기 위해서 작업 증명 방식을 사용한다.
+답을 찾기는 어렵지만 검증하긴 쉽다.
+
+작업 증명 vs 지분 증명이 있다.
+
+modifying block structure
