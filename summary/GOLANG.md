@@ -453,3 +453,13 @@ Restoring from Database's bytes data
 작업 증명 vs 지분 증명이 있다.
 
 modifying block structure
+
+## 9.1 PoW Proof of Concept
+
+해쉬 -> deterministic function, ono way function 으로
+같은 입력은 항상 같은 출력, 입력으로부터 출력 추정 불가
+=> 답이 맞는지 확인하긴 쉽지만, 답을 찾기는 어려움
+
+작업 증명 find a hash start with certain number of Zeros
+zero의 숫자(n)는 difficulty로 조정
+nonce의 숫자만 변경하면서 답을 찾음.
