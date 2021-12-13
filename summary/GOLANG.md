@@ -492,3 +492,9 @@ difficulty defualt value
 
 기본(초기)난이도를 정하고 , 난이도를 조절할 간격을 정한다.
 그리고 블록이 생성 될 때마다 타임스탬프를 저장해 블록이 얼마나 빠르게 추가되는지 확인한 후 원하는 만큼 난이도를 조절할 수 있도록 한다.
+
+## 9.5 conclusion
+
+check blochain network can adjust difficulty by itself as adding blocks
+
+check blockcahin network can assign difficulty dynamically
