@@ -499,13 +499,38 @@ check blochain network can adjust difficulty by itself as adding blocks
 
 check blockcahin network can assign difficulty dynamically
 
-## 10.0 Transaction Intro
+## 10.0 - 10.1 Transaction Intro
 
 블록체인 네트워크에서 이뤄지는 거래의 의미
 
 코인을 주고 받는 다는 건 무슨 의미일까.
 코인은 어디서 생성되고 어떻게 채굴자에게 보상으로 줄 것인가
-누가 얼마나 가지고 있는가 확인 할 수 있을 것 
+누가 얼마나 가지고 있는가 확인 할 수 있을 것
 비트코인의 accounting model
 
 Unspent Transaction Output(uTxOut) 모델
+
+Transaction is composed inputs and outputs
+input has information that is about how much do someone have before the transaction
+
+output has information for after the transaction
+
+거래는 인풋과 아웃풋으로 이루어진다.
+이 거래를 하기전 가지고 있는 코인?의 양과
+거래가 끝나고 가지고 있는 코인의 양이 나온다.
+
+예를 들어 A가 B에게 x coin을 보낸다하면.
+인풋엔 원래 A가 가지고 있는 총금액이 있고
+아웃풋에 A가 가진 금액에서 x만큼 빠진 금액, 그리고 B가 원래 가지고 있던 금액에서 x를 더한 금액이 있는 것이다.
+
+채굴자가 보상을 받을 경우엔 인풋에 블록체인 네트워크에서 인풋이 만들어지고, => 화폐를 발행하는 것 과 같은 맥락=>coinbase transaction 이라 한다.
+
+노드 간 거래일 경우 보내는 쪽 노드에서 인풋이 만들어진다.
+
+## 10.2 coinbase transaction
+
+make transaction to reward for Miner
+It's gonna be made by blockchain network to the Miner
+
+block을 생성할 때 transaction 정보를 담는다.
+transaction 은 고유한 Id 를 가진다. 시간, 거래 Input과 Output으로 구성된다.

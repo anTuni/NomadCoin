@@ -10,16 +10,14 @@ import (
 	"github.com/anTuni/NomadCoin/utils"
 )
 
-const difficulty = 3
-
 type Block struct {
-	Data       string `json:"data"`
-	Hash       string `json:"hash"`
-	PrevHash   string `json:"prevHash,omitempty"`
-	Height     int    `json:"height"`
-	Difficulty int    `json:"difficulty"`
-	Nonce      int    `json:"nonce"`
-	Timestamp  int    `json:"timestamp"`
+	Hash         string `json:"hash"`
+	PrevHash     string `json:"prevHash,omitempty"`
+	Height       int    `json:"height"`
+	Difficulty   int    `json:"difficulty"`
+	Nonce        int    `json:"nonce"`
+	Timestamp    int    `json:"timestamp"`
+	Transactions []*Tx  `json:"transactions"`
 }
 
 func (b *Block) persist() {
@@ -31,7 +29,7 @@ func (b *Block) mine() {
 	for {
 		hash := utils.Hash(b)
 		b.Timestamp = int(time.Now().Unix())
-		fmt.Printf("Target : %s\nblockAsString : %s , Hash : %s\nNonce : %d", hash, hash, target, b.Nonce)
+		fmt.Printf("Target : %s\nblockAsString : %s , Hash : %s\nNonce : %d\n", hash, hash, target, b.Nonce)
 		if strings.HasPrefix(hash, target) {
 			b.Hash = hash
 			break
@@ -41,14 +39,14 @@ func (b *Block) mine() {
 	}
 }
 
-func createBlock(data string, prevHash string, height int) *Block {
+func createBlock(prevHash string, height int) *Block {
 	block := &Block{
-		Data:       data,
-		Hash:       "",
-		PrevHash:   prevHash,
-		Height:     height,
-		Difficulty: Blockchain().difficulty(),
-		Nonce:      0,
+		Hash:         "",
+		PrevHash:     prevHash,
+		Height:       height,
+		Difficulty:   Blockchain().difficulty(),
+		Nonce:        0,
+		Transactions: []*Tx{makeCoinbaseTx("taeyun")},
 	}
 	block.mine()
 	block.persist()

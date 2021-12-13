@@ -7,7 +7,6 @@ import (
 	"net/http"
 
 	"github.com/anTuni/NomadCoin/blockchain"
-	"github.com/anTuni/NomadCoin/utils"
 	"github.com/gorilla/mux"
 )
 
@@ -27,9 +26,6 @@ type urlDescription struct {
 	Payload     string `json:"payload,omitempty"`
 }
 
-type addingBlock struct {
-	Message string
-}
 type errorMessage struct {
 	ErrorMessage string `json:"errorMessage"`
 }
@@ -74,9 +70,7 @@ func blocks(rw http.ResponseWriter, r *http.Request) {
 	case "GET":
 		json.NewEncoder(rw).Encode(blockchain.Blockchain().Blocks())
 	case "POST":
-		var addingBlock addingBlock
-		utils.HandleErr(json.NewDecoder(r.Body).Decode(&addingBlock))
-		blockchain.Blockchain().AddBlock(addingBlock.Message)
+		blockchain.Blockchain().AddBlock()
 		rw.WriteHeader(http.StatusCreated)
 	}
 }
