@@ -534,3 +534,4 @@ It's gonna be made by blockchain network to the Miner
 
 block을 생성할 때 transaction 정보를 담는다.
 transaction 은 고유한 Id 를 가진다. 시간, 거래 Input과 Output으로 구성된다.
+___
