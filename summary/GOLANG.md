@@ -498,3 +498,14 @@ difficulty defualt value
 check blochain network can adjust difficulty by itself as adding blocks
 
 check blockcahin network can assign difficulty dynamically
+
+## 10.0 Transaction Intro
+
+블록체인 네트워크에서 이뤄지는 거래의 의미
+
+코인을 주고 받는 다는 건 무슨 의미일까.
+코인은 어디서 생성되고 어떻게 채굴자에게 보상으로 줄 것인가
+누가 얼마나 가지고 있는가 확인 할 수 있을 것 
+비트코인의 accounting model
+
+Unspent Transaction Output(uTxOut) 모델
