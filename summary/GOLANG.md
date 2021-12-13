@@ -483,9 +483,9 @@ nonce의 숫자만 변경하면서 답을 찾음.
 
 ## 9.3 -9.4 Difficulty part One,Two
 
-Difficulty를 network로부터 결정되도록
+Difficulty를 network로부터 자동으로 결정되도록
 
-hashing function
+add hashing function to utils package
 
 difficulty defualt value
 -> difficulty interval(난이도를 조절할 간격? 이 강의에서는 blockchain의 height 로 하였음)
