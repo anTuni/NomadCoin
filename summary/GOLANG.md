@@ -534,4 +534,11 @@ It's gonna be made by blockchain network to the Miner
 
 block을 생성할 때 transaction 정보를 담는다.
 transaction 은 고유한 Id 를 가진다. 시간, 거래 Input과 Output으로 구성된다.
-___
+
+## 10.3
+
+get TxOuts by owner
+
+1 모든 블록의 거래 내역 중 Output을 가져오고
+2 그 중 원하는 owner의 거래 내역만 불러온다.
+3 불러온 거래 내역의 모든 값을 더한다.

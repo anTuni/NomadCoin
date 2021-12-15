@@ -7,6 +7,7 @@ import (
 	"net/http"
 
 	"github.com/anTuni/NomadCoin/blockchain"
+	"github.com/anTuni/NomadCoin/utils"
 	"github.com/gorilla/mux"
 )
 
@@ -26,6 +27,10 @@ type urlDescription struct {
 	Payload     string `json:"payload,omitempty"`
 }
 
+type balanceResponse struct {
+	Address string `json:"address"`
+	Balance int    `json:"balance"`
+}
 type errorMessage struct {
 	ErrorMessage string `json:"errorMessage"`
 }
@@ -59,6 +64,11 @@ func documentation(rw http.ResponseWriter, r *http.Request) {
 			Method:      "POST",
 			Description: "Add a block to blockchain",
 			Payload:     "data:String",
+		},
+		{
+			URL:         url("/balance/{address}"),
+			Method:      "GET",
+			Description: "Get Txs by owner",
 		},
 	}
 	json.NewEncoder(rw).Encode(data)
@@ -95,6 +105,19 @@ func jsonContentMiddleware(next http.Handler) http.Handler {
 		next.ServeHTTP(rw, r)
 	})
 }
+func balance(rw http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	address := vars["address"]
+	total := r.URL.Query().Get("total")
+	switch total {
+	case "true":
+		amount := blockchain.Blockchain().BalanceByAddress(address)
+		utils.HandleErr(json.NewEncoder(rw).Encode(balanceResponse{address, amount}))
+	default:
+		utils.HandleErr(json.NewEncoder(rw).Encode(blockchain.Blockchain().TxOutsByOwner(address)))
+	}
+}
+
 func Start(aPort int) {
 	router := mux.NewRouter()
 
@@ -105,6 +128,7 @@ func Start(aPort int) {
 	router.HandleFunc("/status", status).Methods("GET")
 	router.HandleFunc("/blocks", blocks).Methods("GET", "POST")
 	router.HandleFunc("/block/{hash:[a-f0-9]+}", block).Methods("GET")
+	router.HandleFunc("/balance/{address}", balance).Methods("GET")
 
 	log.Fatal(http.ListenAndServe(port, router))
 }
