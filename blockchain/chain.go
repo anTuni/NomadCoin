@@ -86,7 +86,7 @@ func (b *blockchain) TxOuts() []*TxOut {
 	}
 	return TxOuts
 }
-func (b *blockchain) TxOutsByOwner(address string) []*TxOut {
+func (b *blockchain) TxOutsByAddress(address string) []*TxOut {
 	var OwnedTxOuts []*TxOut
 	TxOuts := b.TxOuts()
 	for _, TxOut := range TxOuts {
@@ -98,7 +98,7 @@ func (b *blockchain) TxOutsByOwner(address string) []*TxOut {
 }
 func (b *blockchain) BalanceByAddress(address string) int {
 	var amount int
-	TxOuts := b.TxOutsByOwner(address)
+	TxOuts := b.TxOutsByAddress(address)
 	for _, TxOut := range TxOuts {
 		amount += TxOut.Amount
 	}

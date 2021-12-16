@@ -556,3 +556,36 @@ Mempool은 메모리상에 저장? 됨 . 블록에 추가 될 때 데이터 베�
 보내는 사람, 받는 사람, 거래량
 
 보내는 사람의 잔고 확인 (이전 거래 Outputs 확인) -> 거래량 만큼 있는지
+
+## 10.6 makeTx to AddTx
+
+보내는 사람의 잔고 확인 (이전 거래 Outputs 확인) -> 거래량 만큼 있는지
+
+1.TxIns 만들기
+2.TxOuts 만들기
+3.Tx 만들기
+
+1.TxIns 만들기
+
+TxIns에 들어간 amount의 양을 확인하기 위한 변수 total 초기화
+
+보내는 사람의 Outputs slice 로 loop를 돌린다.
+하나의 Txout으로 TxIn을 만들어 TxIns에 추가한다.
+추가한 Txout의 Amount를 total에 더한다.
+total이 보내고자하는 amount보다 크거나 같으면 loop를 break 한다.
+
+2.TxOuts 만들기
+
+2-1 보내는 사람 TxOut : 잔돈 확인
+total과 amount의 차가 0보다 크면 그만큼을 TxOuts에 보내는 사람의 TxOut추가한다.
+
+2-2 받는 사람 TxOut
+amount 만큼 추가한다.
+
+3.Tx 만들기
+timestamp와 TxIns,TxOuts로 만들고 ID 초기화
+
+Q. 보내는 사람, 마이너 는 어떻게 가지고 오나.
+Q. 블록체인 네트워크의 아키텍쳐
+각 노드는 어떤 정보를 가지고 있고 어떤걸 갖추고 있는가.
+블록체인의 모든 정보를 어느 주기로 어떻게 검증하는가.
