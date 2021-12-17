@@ -76,20 +76,20 @@ func (b *blockchain) Blocks() []*Block {
 	}
 	return blocks
 }
-func (b *blockchain) UTxOutsByAddress(address string) []*TxOut {
-	var UTxOuts []*TxOut
+func (b *blockchain) UTxOutsByAddress(address string) []*UTxOut {
+	var UTxOuts []*UTxOut
 	createdTxIds := make(map[string]bool)
 	for _, block := range Blockchain().Blocks() {
-		for _, Tx := range block.Transactions {
-			for _, input := range Tx.TxIns {
+		for _, tx := range block.Transactions {
+			for _, input := range tx.TxIns {
 				if input.Owner == address {
 					createdTxIds[input.TxId] = true
 				}
 			}
-			for _, output := range Tx.TxOuts {
+			for index, output := range tx.TxOuts {
 				if output.Owner == address {
-					if _, ok := createdTxIds[Tx.Id]; !ok {
-						UTxOuts = append(UTxOuts, output)
+					if _, ok := createdTxIds[tx.Id]; !ok {
+						UTxOuts = append(UTxOuts, &UTxOut{TxId: tx.Id, Index: index, Amount: output.Amount})
 					}
 				}
 			}
