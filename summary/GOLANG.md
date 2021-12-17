@@ -589,3 +589,9 @@ Q. 보내는 사람, 마이너 는 어떻게 가지고 오나.
 Q. 블록체인 네트워크의 아키텍쳐
 각 노드는 어떤 정보를 가지고 있고 어떤걸 갖추고 있는가.
 블록체인의 모든 정보를 어느 주기로 어떻게 검증하는가.
+
+## 10.7 Confirm Transactions
+
+When miner mine a block than mempool on memory can be confirmed
+add coinbase Tx and  Txs in mempool on memory to the block's Txs slice
+And empty Mempool Txs
