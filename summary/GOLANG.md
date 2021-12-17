@@ -595,3 +595,19 @@ Q. 블록체인 네트워크의 아키텍쳐
 When miner mine a block than mempool on memory can be confirmed
 add coinbase Tx and  Txs in mempool on memory to the block's Txs slice
 And empty Mempool Txs
+
+## 10.8 uTxsOuts
+
+Check if it were used before when make TxIns from sender's TxOuts
+
+Need to track TxOuts used as TxIn(in other words Referenced by TxIn)
+
+TxIn have to refer TxOuts not refered before.
+refered TxOuts be said "It is spent"
+and It is unspent vice versa
+
+TxIn gonna have TxId and Index to find out A TxOut
+
+Delete all function about TxOuts not validated
+
+modify TxIn struct , Add UTxOut type struct
