@@ -611,3 +611,14 @@ TxIn gonna have TxId and Index to find out A TxOut
 Delete all function about TxOuts not validated
 
 modify TxIn struct , Add UTxOut type struct
+
+## 10.9 UTxOutsBy Address
+
+Preview : to filter the spent TxOuts
+get all TxIns and TxOuts
+
+and find TxOuts that is not included in TxIns => unspent TxOuts
+loop all blocks, Txs, TxIns
+
+TxIn은 과거의 TxOut을 참조한다.
+TxOut은 미래의 TxIn에 의해 참조된다.-> 같은 블록의 Txs과 미래 블록의 Txs의 TxIn이 가지는 TxId와 겹치는 Tx의 TxOut은 Spent.
