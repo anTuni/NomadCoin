@@ -626,3 +626,7 @@ TxOut은 미래의 TxIn에 의해 참조된다.-> 같은 블록의 Txs과 미래
 ## 10.10 makeTx part Two
 
 using Unspent Txs that is confirmed
+
+## 10.11 isOnMempool
+
+승인 되기 이전의 거래 내역에서 사용된 부분도 확인해야함.
