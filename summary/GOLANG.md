@@ -622,3 +622,7 @@ loop all blocks, Txs, TxIns
 
 TxIn은 과거의 TxOut을 참조한다.
 TxOut은 미래의 TxIn에 의해 참조된다.-> 같은 블록의 Txs과 미래 블록의 Txs의 TxIn이 가지는 TxId와 겹치는 Tx의 TxOut은 Spent.
+
+## 10.10 makeTx part Two
+
+using Unspent Txs that is confirmed

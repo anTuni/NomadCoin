@@ -1,0 +1,17 @@
+Tx1 
+{
+    TxIn[COINBASE]
+    TxOut[5$(A)] s
+}
+
+Tx2 
+{
+    TxIn[5$(A)]
+    TxOut[5$(B)] s
+}
+
+Tx2 
+{
+    TxIn[5$(B)]
+    TxOut[3$(A),2$(B)]
+}
