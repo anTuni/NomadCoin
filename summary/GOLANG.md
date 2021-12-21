@@ -629,4 +629,11 @@ using Unspent Txs that is confirmed
 
 ## 10.11 isOnMempool
 
-승인 되기 이전의 거래 내역에서 사용된 부분도 확인해야함.
+승인 되기 이전의 거래 내역에서(Mempool) 사용된 부분도 확인해야함.
+
+## 10. 12 refactoring
+
+go lang label 사용하기. -> break in nested loop
+
+reciever finction( 메소드)과 일반 function 구분 하기
+기준 : 기존 struct를 변화 시키는지에 따라 , 변화시키는 건 메소드. 아닌 것은 일반 함수로

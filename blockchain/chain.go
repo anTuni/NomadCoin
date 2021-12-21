@@ -24,8 +24,20 @@ type blockchain struct {
 var b *blockchain
 var once sync.Once
 
-func (b *blockchain) recalDifficulty() int {
-	blocks := b.Blocks()
+func (b *blockchain) restore(data []byte) {
+	utils.FromBytes(b, data)
+}
+
+func (b *blockchain) AddBlock() {
+	block := createBlock(b.NewestHash, b.Height+1)
+	b.NewestHash = block.Hash
+	b.Height = block.Height
+	b.CurrentDifficulty = block.Difficulty
+	persistBlockchain(b)
+}
+
+func recalDifficulty(b *blockchain) int {
+	blocks := Blocks(b)
 	newestBlock := blocks[0]
 	lastCalculatedBlock := blocks[difficultyinterval-1]
 	actualTime := (newestBlock.Timestamp / 60) - (lastCalculatedBlock.Timestamp / 60)
@@ -39,30 +51,21 @@ func (b *blockchain) recalDifficulty() int {
 	return b.CurrentDifficulty
 }
 
-func (b *blockchain) difficulty() int {
+func persistBlockchain(b *blockchain) {
+	db.SaveBlockchain(utils.ToBytes(b))
+}
+
+func difficulty(b *blockchain) int {
 	if b.Height == 0 {
 		return defaultDifficulty
 	} else if b.Height%difficultyinterval == 0 {
-		return b.recalDifficulty()
+		return recalDifficulty(b)
 	} else {
 		return b.CurrentDifficulty
 	}
 }
 
-func (b *blockchain) restore(data []byte) {
-	utils.FromBytes(b, data)
-}
-func (b *blockchain) persist() {
-	db.SaveBlockchain(utils.ToBytes(b))
-}
-func (b *blockchain) AddBlock() {
-	block := createBlock(b.NewestHash, b.Height+1)
-	b.NewestHash = block.Hash
-	b.Height = block.Height
-	b.CurrentDifficulty = block.Difficulty
-	b.persist()
-}
-func (b *blockchain) Blocks() []*Block {
+func Blocks(b *blockchain) []*Block {
 	var blocks []*Block
 	hashCursor := b.NewestHash
 	for {
@@ -76,10 +79,11 @@ func (b *blockchain) Blocks() []*Block {
 	}
 	return blocks
 }
-func (b *blockchain) UTxOutsByAddress(address string) []*UTxOut {
+
+func UTxOutsByAddress(address string, b *blockchain) []*UTxOut {
 	var UTxOuts []*UTxOut
 	createdTxIds := make(map[string]bool)
-	for _, block := range Blockchain().Blocks() {
+	for _, block := range Blocks(Blockchain()) {
 		for _, tx := range block.Transactions {
 			for _, input := range tx.TxIns {
 				if input.Owner == address {
@@ -101,14 +105,16 @@ func (b *blockchain) UTxOutsByAddress(address string) []*UTxOut {
 
 	return UTxOuts
 }
-func (b *blockchain) BalanceByAddress(address string) int {
+
+func BalanceByAddress(address string, b *blockchain) int {
 	var amount int
-	TxOuts := b.UTxOutsByAddress(address)
+	TxOuts := UTxOutsByAddress(address, b)
 	for _, TxOut := range TxOuts {
 		amount += TxOut.Amount
 	}
 	return amount
 }
+
 func Blockchain() *blockchain {
 	if b == nil {
 		once.Do(
