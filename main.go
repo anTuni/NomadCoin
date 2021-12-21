@@ -1,11 +1,9 @@
 package main
 
 import (
-	"github.com/anTuni/NomadCoin/cli"
-	"github.com/anTuni/NomadCoin/db"
+	"github.com/anTuni/NomadCoin/wallet"
 )
 
 func main() {
-	defer db.Close()
-	cli.Start()
+	wallet.Start()
 }

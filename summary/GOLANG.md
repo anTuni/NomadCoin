@@ -645,3 +645,31 @@ Once.Do() 함수를 사용하는데
 Blockchain() -> AddBlock() -> createBlock() -> Blockchain()
 순으로 함수가 서로를 참조해 끝나지 않는다.
 deadlock이 발생한다.
+
+## 11.01 Wallet Introduction
+
+1. TxIns에 사용되는 UTxOut이 보내는 사람의 것이 맞는지 검증
+2. 보내는 사람이 거래를 승인했는지 검증
+by Signiture
+
+## 11.1 Private and Public Keys
+
+1) hash the msg
+"message" ->"hashed massage"
+
+2)generate key pair
+(Private Key, Publick key)
+
+3)sign the hash
+"hashed massage" + Private key -> "Signiture"
+
+4)verify
+"hashed message" + "Signiture" + public key -> verify
+
+## 11.2 signing
+
+Elliptic Curve Digital signing algorithm
+using ecdsa package
+
+1) Generate Private key
+2) Signing with the Private key and hashed mesaage
