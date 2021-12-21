@@ -637,3 +637,11 @@ go lang label 사용하기. -> break in nested loop
 
 reciever finction( 메소드)과 일반 function 구분 하기
 기준 : 기존 struct를 변화 시키는지에 따라 , 변화시키는 건 메소드. 아닌 것은 일반 함수로
+
+## 10.13 resolve dead lock
+
+singleton pattern을 위해
+Once.Do() 함수를 사용하는데
+Blockchain() -> AddBlock() -> createBlock() -> Blockchain()
+순으로 함수가 서로를 참조해 끝나지 않는다.
+deadlock이 발생한다.
