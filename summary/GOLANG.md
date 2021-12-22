@@ -688,3 +688,7 @@ signiture -> convert r,s to slice of bytes and merge them and print it as hexa d
 실제로 구현 될 것들
 Tx 정보를 hashed 한 message와 파일로 저장된 private key를 불러와서 서명하기
 서명한 것을 가지고 와서 검증하기.
+
+# 11.3
+
+Restoring Private Key and Restoring Signiture's big integers from string
