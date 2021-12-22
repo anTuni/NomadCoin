@@ -673,3 +673,18 @@ using ecdsa package
 
 1) Generate Private key
 2) Signing with the Private key and hashed mesaage
+
+## 11.3 save privateKey, hashedmessege, signiture
+
+1. verifiying signiture by
+ecdsa.Verify()
+
+2. copy hashedmessge, privateKey, signiture
+
+hashedmessage -> just hashed string
+privateKey ->  convert EC Private key into bytes and print it as hexa decimal code
+signiture -> convert r,s to slice of bytes and merge them and print it as hexa decimal string
+
+실제로 구현 될 것들
+Tx 정보를 hashed 한 message와 파일로 저장된 private key를 불러와서 서명하기
+서명한 것을 가지고 와서 검증하기.
