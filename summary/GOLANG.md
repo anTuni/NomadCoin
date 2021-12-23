@@ -733,3 +733,16 @@ line2 : x2,err := someFuc()
 line2에서 x2는 새로 생성 될 수 있지만 err는 기존의 변수를 업데이트 해줘야한다.
 보기에는 line2에서 err를 새로 생성하는 것처럼 보여서 compile error가 발생할 것 같지만 그렇지 않다.
 이번 예처럼 쓰면 x2는 새로 생성, err은 업데이트 하도록한다.
+
+## 11.7 Restore Wallet
+
+file 불러오기
+address는 Public Key로 생성된다.
+publick keysms 두 개의 big.Int 타입으로 돼 있어
+[]byte로 만들어 하나의 Slice로 합친 후 hexadecimal string으로 변환 할 거다
+
+## 11.7 Address
+
+publckKey가 가지는 두 big.Int를 합쳐서 만든 Address를 거래에서 사용.
+
+signiture function
