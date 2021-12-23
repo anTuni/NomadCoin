@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"github.com/anTuni/NomadCoin/utils"
+	"github.com/anTuni/NomadCoin/wallet"
 )
 
 const (
@@ -105,7 +106,7 @@ func makeTx(from, to string, amount int) (*Tx, error) {
 	return tx, nil
 }
 func (m *mempool) AddTx(to string, amount int) error {
-	Tx, err := makeTx("taeyun", to, amount)
+	Tx, err := makeTx(wallet.Wallet().Address, to, amount)
 	if err != nil {
 		return err
 	}
@@ -113,7 +114,7 @@ func (m *mempool) AddTx(to string, amount int) error {
 	return nil
 }
 func (m *mempool) TxsToConfirm() []*Tx {
-	coinbase := makeCoinbaseTx("taeyun")
+	coinbase := makeCoinbaseTx(wallet.Wallet().Address)
 	Txs := m.Txs
 	Txs = append(Txs, coinbase)
 	m.Txs = nil
