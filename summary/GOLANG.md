@@ -689,6 +689,47 @@ signiture -> convert r,s to slice of bytes and merge them and print it as hexa d
 Tx 정보를 hashed 한 message와 파일로 저장된 private key를 불러와서 서명하기
 서명한 것을 가지고 와서 검증하기.
 
-# 11.3
+## 11.3 Restoring
 
 Restoring Private Key and Restoring Signiture's big integers from string
+
+## 11.4 Verification with restored items
+
+* using ecdsa.Verify function
+
+reason why using hex.DecodeString() when convert sting to []byte is that
+handle error caused by encoding state(to check someone else modify file or ...).
+
+PrivateKey
+
+1) Generate by ecdsa.GenerateKey()
+
+2) Marshaled into byte by x509.MarshalECPrivateKey()
+
+3) Parsed from byte by x509.ParseECPrivateKey()
+
+Signiture
+
+1)signed by ecdsa.Sign() with PrivateKey, hashed message(will be Tx)
+
+2)verified by ecdsa.Verify() with two big.Int s of Publickkey of PrivateKey, hashed message
+
+all thing ( signing and verifying ) is can be implemented in offline, because all thing is done by Math,Crypto
+
+* singleton pattern wallet
+
+singleton : initialize once using whole time
+
+## 11.5, 11.6 Persist Wallet
+
+create PrivKey and save it to file
+
+* golang
+when function return more than 1
+ex) err
+line1 : x1,err := someFuc()
+line2 : x2,err := someFuc()
+일 때 line1 에서 변수 err 은 이미 생성(선언 및 초기화)된다.
+line2에서 x2는 새로 생성 될 수 있지만 err는 기존의 변수를 업데이트 해줘야한다.
+보기에는 line2에서 err를 새로 생성하는 것처럼 보여서 compile error가 발생할 것 같지만 그렇지 않다.
+이번 예처럼 쓰면 x2는 새로 생성, err은 업데이트 하도록한다.
