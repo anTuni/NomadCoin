@@ -79,7 +79,23 @@ func Blocks(b *blockchain) []*Block {
 	}
 	return blocks
 }
+func Txs(b *blockchain) []*Tx {
+	var Txs []*Tx
+	for _, block := range Blocks(b) {
+		Txs = append(Txs, block.Transactions...)
+	}
+	return Txs
+}
 
+func FindTx(b *blockchain, targetID string) *Tx {
+	Txs := Txs(b)
+	for _, Tx := range Txs {
+		if Tx.Id == targetID {
+			return Tx
+		}
+	}
+	return nil
+}
 func UTxOutsByAddress(address string, b *blockchain) []*UTxOut {
 	var UTxOuts []*UTxOut
 	createdTxIds := make(map[string]bool)

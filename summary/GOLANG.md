@@ -784,3 +784,18 @@ signiture function
 1. Verification
 
 * Verify by ecdsa.Verify() func
+
+## 11.10 recap (add some common func)
+
+## 11.11 Transaction signing
+
+1. Signing
+TxIn will have signature that Signing on Tx.ID
+TxOut will have address
+
+when make Tx after Tx.getId()
+Tx.Signing func will sign with payload of Tx.ID and store the signature in each of Tx Inputs
+
+1. Verification
+
+- get address of TxOut that refered by TxIn

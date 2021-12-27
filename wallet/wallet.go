@@ -53,7 +53,7 @@ func encodeBigInt(a, b []byte) string {
 func AfromK(key *ecdsa.PrivateKey) string {
 	return encodeBigInt(key.X.Bytes(), key.Y.Bytes())
 }
-func sign(payload string, w *wallet) string {
+func Sign(payload string, w *wallet) string {
 	hashAsByte, err := hex.DecodeString(payload)
 	utils.HandleErr(err)
 	r, s, err := ecdsa.Sign(rand.Reader, w.PrivateKey, hashAsByte)
