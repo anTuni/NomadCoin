@@ -46,17 +46,19 @@ func restorePrivateKey() *ecdsa.PrivateKey {
 	utils.HandleErr(err)
 	return key
 }
-func AfromK(key *ecdsa.PrivateKey) string {
-	bytes := append(key.X.Bytes(), key.Y.Bytes()...)
+func encodeBigInt(a, b []byte) string {
+	bytes := append(a, b...)
 	return fmt.Sprintf("%x", bytes)
+}
+func AfromK(key *ecdsa.PrivateKey) string {
+	return encodeBigInt(key.X.Bytes(), key.Y.Bytes())
 }
 func sign(payload string, w *wallet) string {
 	hashAsByte, err := hex.DecodeString(payload)
 	utils.HandleErr(err)
 	r, s, err := ecdsa.Sign(rand.Reader, w.PrivateKey, hashAsByte)
 	utils.HandleErr(err)
-	z := append(r.Bytes(), s.Bytes()...)
-	return fmt.Sprintf("%x", z)
+	return encodeBigInt(r.Bytes(), s.Bytes())
 }
 func restoreBIgInt(s string) (*big.Int, *big.Int, error) {
 	bytes, err := hex.DecodeString(s)
