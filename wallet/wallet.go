@@ -7,6 +7,7 @@ import (
 	"crypto/x509"
 	"encoding/hex"
 	"fmt"
+	"math/big"
 	"os"
 
 	"github.com/anTuni/NomadCoin/utils"
@@ -57,7 +58,39 @@ func sign(payload string, w *wallet) string {
 	z := append(r.Bytes(), s.Bytes()...)
 	return fmt.Sprintf("%x", z)
 }
-func Verify(signiture, payload, publicKey string) {
+func restoreBIgInt(s string) (*big.Int, *big.Int, error) {
+	bytes, err := hex.DecodeString(s)
+	utils.HandleErr(err)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	ABytes := bytes[:len(bytes)/2]
+	BBytes := bytes[len(bytes)/2:]
+	ABigInt, BBigInt := big.Int{}, big.Int{}
+	ABigInt.SetBytes(ABytes)
+	BBigInt.SetBytes(BBytes)
+
+	return &ABigInt, &BBigInt, nil
+
+}
+func Verify(signiture, payload, publicKey string) bool {
+	r, s, err := restoreBIgInt(signiture)
+	utils.HandleErr(err)
+	x, y, err := restoreBIgInt(publicKey)
+	utils.HandleErr(err)
+	PublicKey := &ecdsa.PublicKey{
+		Curve: elliptic.P256(),
+		X:     x,
+		Y:     y,
+	}
+
+	payloadBytes, err := hex.DecodeString(payload)
+	utils.HandleErr(err)
+
+	ok := ecdsa.Verify(PublicKey, payloadBytes, r, s)
+
+	return ok
 }
 func Wallet() *wallet {
 	if w == nil {
