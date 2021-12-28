@@ -787,7 +787,7 @@ signiture function
 
 ## 11.10 recap (add some common func)
 
-## 11.11 Transaction signing
+## 11.11 Transaction signing and verification
 
 1. Signing
 TxIn will have signature that Signing on Tx.ID
@@ -797,5 +797,7 @@ when make Tx after Tx.getId()
 Tx.Signing func will sign with payload of Tx.ID and store the signature in each of Tx Inputs
 
 1. Verification
+using ecdsa.Verify() func
+TxIn.Signature(), Tx.Id,TxOut.Address
 
-- get address of TxOut that refered by TxIn
+This. process will occur on processing someone try to make Transaction and submit on Blockchain Network
