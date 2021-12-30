@@ -805,3 +805,7 @@ This. process will occur on processing someone try to make Transaction and submi
 ## 11.12 -13 Testing, recap
 
 api for getting address
+
+fix error when we get http response that we don't have enough money.
+
+and delete mining log

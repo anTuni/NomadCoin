@@ -137,7 +137,9 @@ func transaction(rw http.ResponseWriter, r *http.Request) {
 	fmt.Println("payload end")
 	err := blockchain.Mempool.AddTx(payload.To, payload.Amount)
 	if err != nil {
-		json.NewEncoder(rw).Encode(errorMessage{"Not enough funds"})
+		rw.WriteHeader(http.StatusBadRequest)
+		json.NewEncoder(rw).Encode(err.Error())
+		return
 	}
 	rw.WriteHeader(http.StatusCreated)
 }
