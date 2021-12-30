@@ -809,3 +809,15 @@ api for getting address
 fix error when we get http response that we don't have enough money.
 
 and delete mining log
+
+## 12.0 Intro to P2P
+
+### Learn 'go routine' and 'channel'
+
+call a fuction with go statement
+
+c := make(chan string)
+
+callback(c chan string)
+
+c <- string{}
