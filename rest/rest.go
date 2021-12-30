@@ -8,6 +8,7 @@ import (
 
 	"github.com/anTuni/NomadCoin/blockchain"
 	"github.com/anTuni/NomadCoin/utils"
+	"github.com/anTuni/NomadCoin/wallet"
 	"github.com/gorilla/mux"
 )
 
@@ -34,6 +35,9 @@ type balanceResponse struct {
 type addTxPayloads struct {
 	To     string
 	Amount int
+}
+type AddressResponse struct {
+	Address string `json:"address"`
 }
 type errorMessage struct {
 	ErrorMessage string `json:"errorMessage"`
@@ -137,7 +141,10 @@ func transaction(rw http.ResponseWriter, r *http.Request) {
 	}
 	rw.WriteHeader(http.StatusCreated)
 }
-
+func myWallet(rw http.ResponseWriter, r *http.Request) {
+	address := AddressResponse{Address: wallet.Wallet().Address}
+	json.NewEncoder(rw).Encode(address)
+}
 func Start(aPort int) {
 	router := mux.NewRouter()
 
@@ -149,6 +156,7 @@ func Start(aPort int) {
 	router.HandleFunc("/blocks", blocks).Methods("GET", "POST")
 	router.HandleFunc("/block/{hash:[a-f0-9]+}", block).Methods("GET")
 	router.HandleFunc("/balance/{address}", balance).Methods("GET")
+	router.HandleFunc("/wallet", myWallet).Methods("GET")
 	router.HandleFunc("/mempool", mempool).Methods("GET")
 	router.HandleFunc("/transaction", transaction).Methods("POST")
 

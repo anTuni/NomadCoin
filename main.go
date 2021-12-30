@@ -1,9 +1,9 @@
 package main
 
 import (
-	"github.com/anTuni/NomadCoin/wallet"
+	"github.com/anTuni/NomadCoin/cli"
 )
 
 func main() {
-	wallet.Wallet()
+	cli.Start()
 }

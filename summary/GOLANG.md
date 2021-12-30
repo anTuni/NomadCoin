@@ -801,3 +801,7 @@ using ecdsa.Verify() func
 TxIn.Signature(), Tx.Id,TxOut.Address
 
 This. process will occur on processing someone try to make Transaction and submit on Blockchain Network
+
+## 11.12 -13 Testing, recap
+
+api for getting address
