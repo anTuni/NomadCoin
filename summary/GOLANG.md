@@ -852,3 +852,14 @@ c := make(chan int, 5)
 
 * sender can send messages until the number of we set by second arg of make()
 * reciever will recieve the messages one by one, in order that sent
+
+## 12.5 webSocket
+
+* WS ( WSS)
+* a kind of protocol
+* stateful : it has state of the connection
+* we will send http request(http connection) and upgrade it to WebSocket
+
+* add middleware which will log requested url
+* Upgrade http connenction to  Websocket by websocket upgrader
+* request ws:// request by JS

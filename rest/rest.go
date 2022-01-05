@@ -7,6 +7,7 @@ import (
 	"net/http"
 
 	"github.com/anTuni/NomadCoin/blockchain"
+	"github.com/anTuni/NomadCoin/p2p"
 	"github.com/anTuni/NomadCoin/utils"
 	"github.com/anTuni/NomadCoin/wallet"
 	"github.com/gorilla/mux"
@@ -78,6 +79,11 @@ func documentation(rw http.ResponseWriter, r *http.Request) {
 			Method:      "GET",
 			Description: "Get Txs by owner",
 		},
+		{
+			URL:         url("/ws"),
+			Method:      "GET",
+			Description: "Upgrade HTTP to WS",
+		},
 	}
 	json.NewEncoder(rw).Encode(data)
 }
@@ -107,12 +113,6 @@ func status(rw http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(rw).Encode(blockchain.Blockchain())
 }
 
-func jsonContentMiddleware(next http.Handler) http.Handler {
-	return http.HandlerFunc(func(rw http.ResponseWriter, r *http.Request) {
-		rw.Header().Add("Content-Type", "application/json")
-		next.ServeHTTP(rw, r)
-	})
-}
 func balance(rw http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	address := vars["address"]
@@ -147,12 +147,24 @@ func myWallet(rw http.ResponseWriter, r *http.Request) {
 	address := AddressResponse{Address: wallet.Wallet().Address}
 	json.NewEncoder(rw).Encode(address)
 }
+func jsonContentMiddleware(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(rw http.ResponseWriter, r *http.Request) {
+		rw.Header().Add("Content-Type", "application/json")
+		next.ServeHTTP(rw, r)
+	})
+}
+func loggerMiddleware(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(rw http.ResponseWriter, r *http.Request) {
+		fmt.Println(r.URL)
+		next.ServeHTTP(rw, r)
+	})
+}
 func Start(aPort int) {
 	router := mux.NewRouter()
 
 	port = fmt.Sprintf(":%d", aPort)
 	fmt.Printf("Listen on %s", port)
-	router.Use(jsonContentMiddleware)
+	router.Use(jsonContentMiddleware, loggerMiddleware)
 	router.HandleFunc("/", documentation).Methods("GET")
 	router.HandleFunc("/status", status).Methods("GET")
 	router.HandleFunc("/blocks", blocks).Methods("GET", "POST")
@@ -160,6 +172,7 @@ func Start(aPort int) {
 	router.HandleFunc("/balance/{address}", balance).Methods("GET")
 	router.HandleFunc("/wallet", myWallet).Methods("GET")
 	router.HandleFunc("/mempool", mempool).Methods("GET")
+	router.HandleFunc("/ws", p2p.Upgrade).Methods("GET")
 	router.HandleFunc("/transaction", transaction).Methods("POST")
 
 	log.Fatal(http.ListenAndServe(port, router))
