@@ -810,14 +810,45 @@ fix error when we get http response that we don't have enough money.
 
 and delete mining log
 
-## 12.0 Intro to P2P
+## 12.0,1,2,3 Intro to P2P
 
 ### Learn 'go routine' and 'channel'
 
-call a fuction with go statement
+go routine
+
+  run fuctions at the same time(concurrently).
+
+  call a fuction with go statement
 
 c := make(chan string)
 
 callback(c chan string)
 
 c <- string{}
+
+i := <- c
+reciving or sending to channel is a blocking operation. task will be stopped
+
+## 12.4 Buffered Channel
+
+### Unbeffered Channel
+
+* ex) c := make(chan string)
+* by default all channel is unbuffered(blocking all sending and recieving)
+* sending or recieveing to/from the unbuffered channel is blocking operation
+when we send to the channel like this
+
+c <- 0
+
+it will block the code until somebody recieving from the channel
+
+### beffered Channel
+
+* When we want to send more message(data)s not the only one(want to avoid blocking operation),we can make buffer channel
+
+c := make(chan int, 5)
+
+5 can be any integer
+
+* sender can send messages until the number of we set by second arg of make()
+* reciever will recieve the messages one by one, in order that sent
