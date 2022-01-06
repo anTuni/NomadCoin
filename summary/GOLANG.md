@@ -872,3 +872,9 @@ c := make(chan int, 5)
 
 * use Conn.ReadMessage()
   * It is a blocking operation waiting message from client
+
+## 12.7 Write a message
+
+* use writeMessage function of Conn
+
+router.HandleFunc will execute handler function by go routine.

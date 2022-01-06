@@ -20,6 +20,8 @@ func Upgrade(rw http.ResponseWriter, r *http.Request) {
 		_, p, err := conn.ReadMessage()
 		utils.HandleErr(err)
 		fmt.Printf("Message from the CL : %s\n", p)
+		message := fmt.Sprintf("Message : %s\n", p)
+		conn.WriteMessage(websocket.TextMessage, []byte(message))
 	}
 
 }
