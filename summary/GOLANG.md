@@ -878,3 +878,9 @@ c := make(chan int, 5)
 * use writeMessage function of Conn
 
 router.HandleFunc will execute handler function by go routine.
+
+## 12.8 Connections
+
+functions that run by go routine can use same context of variable
+
+save connections to a variable and using for loop.
