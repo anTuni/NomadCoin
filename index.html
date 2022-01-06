@@ -9,6 +9,10 @@
 <body>
     <script>
         let socket = new WebSocket("ws://localhost:4000/ws");
+        socket.addEventListener("close",function(){
+            console.log("Connection closed");            
+        })
+        
     </script>
 </body>
 </html>

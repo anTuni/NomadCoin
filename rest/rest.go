@@ -163,7 +163,7 @@ func Start(aPort int) {
 	router := mux.NewRouter()
 
 	port = fmt.Sprintf(":%d", aPort)
-	fmt.Printf("Listen on %s", port)
+	fmt.Printf("Listen on %s\n", port)
 	router.Use(jsonContentMiddleware, loggerMiddleware)
 	router.HandleFunc("/", documentation).Methods("GET")
 	router.HandleFunc("/status", status).Methods("GET")

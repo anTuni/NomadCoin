@@ -863,3 +863,12 @@ c := make(chan int, 5)
 * add middleware which will log requested url
 * Upgrade http connenction to  Websocket by websocket upgrader
 * request ws:// request by JS
+* by default, websocket will not allow ws connection because of security issue
+
+## 12.6 Read a Message
+
+* Upgrader.CheckOrigin will not allow connection request from not athentificated one.
+* Conn type have many function to do something with ws connection
+
+* use Conn.ReadMessage()
+  * It is a blocking operation waiting message from client
