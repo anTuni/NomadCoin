@@ -8,7 +8,6 @@ import (
 	"github.com/gorilla/websocket"
 )
 
-var Conns []*websocket.Conn
 var Upgrader = websocket.Upgrader{}
 
 func Upgrade(rw http.ResponseWriter, r *http.Request) {
@@ -16,22 +15,13 @@ func Upgrade(rw http.ResponseWriter, r *http.Request) {
 		return true
 	}
 	conn, err := Upgrader.Upgrade(rw, r, nil)
-	Conns = append(Conns, conn)
-	utils.HandleErr(err)
-	for {
-		_, p, err := conn.ReadMessage()
-		utils.HandleErr(err)
-		fmt.Printf("Message from the CL : %s\n", p)
-		message := fmt.Sprintf("Message : %s\n", p)
-		for _, conn := range Conns {
-			conn.WriteMessage(websocket.TextMessage, []byte(message))
-		}
-	}
+	initPeer(conn, "XX", "XX")
 
+	utils.HandleErr(err)
 }
 func AddPeers(address, port string) {
 
 	conn, _, err := websocket.DefaultDialer.Dial(fmt.Sprintf("ws://%s:%s/ws", address, port), nil)
 	utils.HandleErr(err)
-
+	initPeer(conn, address, port)
 }

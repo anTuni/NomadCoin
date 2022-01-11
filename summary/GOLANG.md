@@ -893,4 +893,8 @@ Peer to Peer
 
 create new connection to other node using wesocket.DefaultDialer.Dial()
 
-CL send request-> Server1 send request-> Server2 upgrade the request from Server1 
+CL send request-> Server1 send request-> Server2 upgrade the request from Server1
+
+## 12.10 initPeer
+
+save connected peer(address:port) into a Map
