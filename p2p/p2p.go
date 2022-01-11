@@ -29,3 +29,9 @@ func Upgrade(rw http.ResponseWriter, r *http.Request) {
 	}
 
 }
+func AddPeers(address, port string) {
+
+	conn, _, err := websocket.DefaultDialer.Dial(fmt.Sprintf("ws://%s:%s/ws", address, port), nil)
+	utils.HandleErr(err)
+
+}

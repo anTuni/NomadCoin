@@ -884,3 +884,13 @@ router.HandleFunc will execute handler function by go routine.
 functions that run by go routine can use same context of variable
 
 save connections to a variable and using for loop.
+
+## 12.9 Peers
+
+Server to Server
+Node to Node
+Peer to Peer
+
+create new connection to other node using wesocket.DefaultDialer.Dial()
+
+CL send request-> Server1 send request-> Server2 upgrade the request from Server1 
