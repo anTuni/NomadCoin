@@ -898,3 +898,7 @@ CL send request-> Server1 send request-> Server2 upgrade the request from Server
 ## 12.10 initPeer
 
 save connected peer(address:port) into a Map
+
+## 12.11 openPort
+
+the reason why we save the peer lists is to connect to new peer
