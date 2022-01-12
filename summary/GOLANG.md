@@ -902,3 +902,14 @@ save connected peer(address:port) into a Map
 ## 12.11 openPort
 
 the reason why we save the peer lists is to connect to new peer
+
+## 12.12 Refactoring and Recap
+
+custom splitter function
+
+we can splice a string like array or splice
+ex)
+str := "somestring"
+str[3:4] => index from 3 to 4 "es"
+str[3:] => index from 3 to the end "estring"
+str[:4] => index from the start to index 4  "somes"
