@@ -913,3 +913,7 @@ str := "somestring"
 str[3:4] => index from 3 to 4 "es"
 str[3:] => index from 3 to the end "estring"
 str[:4] => index from the start to index 4  "somes"
+
+## 12.13 Read peer
+
+read message from peer
