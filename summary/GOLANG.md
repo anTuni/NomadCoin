@@ -917,3 +917,10 @@ str[:4] => index from the start to index 4  "somes"
 ## 12.13 Read peer
 
 read message from peer
+
+## 12.14
+
+Function that can write a message from anywhere.
+Using channels implement inbox system
+
+The reason why we using channel is that some method of the peer will be running  by go routine.
