@@ -924,3 +924,12 @@ Function that can write a message from anywhere.
 Using channels implement inbox system
 
 The reason why we using channel is that some method of the peer will be running  by go routine.
+
+## 12.5 Handling Closing Events
+
+when a Connection failed with some reason
+then we delete that peer from Peers Map.
+
+defer  will execute the statement after finish function(other all works)
+
+when we try to encode that have channel literal value, then it will be not shown
