@@ -2,27 +2,47 @@ package p2p
 
 import (
 	"fmt"
+	"sync"
 
 	"github.com/gorilla/websocket"
 )
 
-var Peers map[string]*peer = make(map[string]*peer)
+type peers struct {
+	v map[string]*peer
+	m sync.Mutex
+}
+
+var Peers = peers{
+	v: make(map[string]*peer),
+}
 
 type peer struct {
 	key     string
 	address string
 	port    string
-	Conn    *websocket.Conn
+	conn    *websocket.Conn
 	inbox   chan []byte
 }
 
+func AllPeers(p *peers) []string {
+	Peers.m.Lock()
+	defer Peers.m.Unlock()
+	var peers []string
+	for key := range p.v {
+		peers = append(peers, key)
+	}
+	return peers
+}
 func (p *peer) close() {
-	delete(Peers, p.key)
+	Peers.m.Lock()
+	defer Peers.m.Unlock()
+	p.conn.Close()
+	delete(Peers.v, p.key)
 }
 func (p *peer) read() {
 	defer p.close()
 	for {
-		_, m, err := p.Conn.ReadMessage()
+		_, m, err := p.conn.ReadMessage()
 		if err != nil {
 			fmt.Println("closed from read")
 			break
@@ -38,7 +58,7 @@ func (p *peer) write() {
 			fmt.Println("closed from write")
 			break
 		}
-		p.Conn.WriteMessage(websocket.TextMessage, m)
+		p.conn.WriteMessage(websocket.TextMessage, m)
 	}
 }
 func initPeer(conn *websocket.Conn, address, port string) *peer {
@@ -47,10 +67,10 @@ func initPeer(conn *websocket.Conn, address, port string) *peer {
 		key:     key,
 		address: address,
 		port:    port,
-		Conn:    conn,
+		conn:    conn,
 		inbox:   make(chan []byte),
 	}
-	Peers[key] = p
+	Peers.v[key] = p
 
 	go p.read()
 	go p.write()

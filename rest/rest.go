@@ -160,7 +160,7 @@ func peers(rw http.ResponseWriter, r *http.Request) {
 		p2p.AddPeers(payload.Address, payload.Port, port)
 		rw.WriteHeader(http.StatusOK)
 	case "GET":
-		json.NewEncoder(rw).Encode(p2p.Peers)
+		json.NewEncoder(rw).Encode(p2p.AllPeers(&p2p.Peers))
 	}
 }
 func jsonContentMiddleware(next http.Handler) http.Handler {

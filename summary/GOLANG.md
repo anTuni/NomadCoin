@@ -925,7 +925,7 @@ Using channels implement inbox system
 
 The reason why we using channel is that some method of the peer will be running  by go routine.
 
-## 12.5 Handling Closing Events
+## 12.15 Handling Closing Events
 
 when a Connection failed with some reason
 then we delete that peer from Peers Map.
@@ -933,3 +933,17 @@ then we delete that peer from Peers Map.
 defer  will execute the statement after finish function(other all works)
 
 when we try to encode that have channel literal value, then it will be not shown
+
+## 12.16 Data race
+
+When two or more  go routine is running
+and that routines try to access to the same data
+and some routine try to modify that data vice versa
+
+## 12.17 Mutex
+
+lock and unlock the variable using mutex to prevent data race
+
+import new boltdb
+
+Mutex will block,unblock the variable
