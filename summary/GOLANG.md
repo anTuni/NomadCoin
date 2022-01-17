@@ -947,3 +947,12 @@ lock and unlock the variable using mutex to prevent data race
 import new boltdb
 
 Mutex will block,unblock the variable
+
+## 12.18 Demonstration
+
+when the Data is locked, until it is unloked
+there is no go routine that can access the locked variable
+it will wait until the variable be available
+
+=> it will be used for lock the blockchain during mining
+
