@@ -978,3 +978,5 @@ sending, reading JSON message
 =>Why? : Clinet can be implemented by any other languages JAVA,C,Javascript etc...
 
 type constant : use iota type for auto generating key,value
+
+## 12.20 send newest block message
