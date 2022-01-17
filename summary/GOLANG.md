@@ -956,3 +956,25 @@ it will wait until the variable be available
 
 => it will be used for lock the blockchain during mining
 
+## 12.19 messages
+
+Two case between the nodes
+node A,B are connected
+Case1 ) A has recent blockchain
+A send newest block to B
+B can find that B is need to update
+B will request allblocks to A
+A send allblocks to B
+
+Case1 ) B has recent blockchain
+A send newest block to B
+B can find A is not recent
+B send newest block to A
+A can find that A is need to update
+A will request allblocks to B
+B send allblocks to A
+
+sending, reading JSON message
+=>Why? : Clinet can be implemented by any other languages JAVA,C,Javascript etc...
+
+type constant : use iota type for auto generating key,value
