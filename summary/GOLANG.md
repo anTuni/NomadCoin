@@ -980,3 +980,19 @@ sending, reading JSON message
 type constant : use iota type for auto generating key,value
 
 ## 12.20 send newest block message
+
+make function that send message with payload
+
+get json bytes using json.Marshal()
+
+payload need to be []byte because there are many other types of payload
+
+## 12.21 Handle Message
+
+ToJSON utility function
+
+Unmarshal the messsage from peer
+
+## 12.22 recap
+
+data race happen when Two or more go routine access the same piece of data

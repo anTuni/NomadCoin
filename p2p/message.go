@@ -2,6 +2,7 @@ package p2p
 
 import (
 	"encoding/json"
+	"fmt"
 
 	"github.com/anTuni/NomadCoin/blockchain"
 	"github.com/anTuni/NomadCoin/utils"
@@ -20,23 +21,26 @@ const (
 	MessageAllBlocksResponse
 )
 
-func (m *Message) addPayload(p interface{}) {
-	payload, err := json.Marshal(p)
-	utils.HandleErr(err)
-	m.Payload = payload
-}
 func makeMessage(kind MessageKind, payload interface{}) []byte {
 	m := Message{
-		Kind: kind,
+		Kind:    kind,
+		Payload: utils.ToJSON(payload),
 	}
-	m.addPayload(payload)
-	mJSON, err := json.Marshal(m)
-	utils.HandleErr(err)
-	return mJSON
+	return utils.ToJSON(m)
 }
 func SendNewestBlock(p *peer) {
 	block, err := blockchain.FindBlock(blockchain.Blockchain().NewestHash)
 	utils.HandleErr(err)
 	m := makeMessage(MessageNewestBlock, block)
 	p.inbox <- m
+}
+
+func handelMsg(m *Message, p *peer) {
+	switch m.Kind {
+	case MessageNewestBlock:
+		var b blockchain.Block
+		utils.HandleErr(json.Unmarshal(m.Payload, &b))
+		fmt.Printf("From Peer:%s Message payload %s Kind of : %d", p.key, b.Hash, m.Kind)
+	}
+
 }
