@@ -28,6 +28,14 @@ func makeMessage(kind MessageKind, payload interface{}) []byte {
 	}
 	return utils.ToJSON(m)
 }
+func sendAllBlocksResponse(p *peer) {
+	m := makeMessage(MessageAllBlocksResponse, blockchain.Blocks(blockchain.Blockchain()))
+	p.inbox <- m
+}
+func sendRequestAllBlock(p *peer) {
+	m := makeMessage(MessageAllBlocksRequest, nil)
+	p.inbox <- m
+}
 func SendNewestBlock(p *peer) {
 	block, err := blockchain.FindBlock(blockchain.Blockchain().NewestHash)
 	utils.HandleErr(err)
@@ -38,9 +46,23 @@ func SendNewestBlock(p *peer) {
 func handelMsg(m *Message, p *peer) {
 	switch m.Kind {
 	case MessageNewestBlock:
-		var b blockchain.Block
-		utils.HandleErr(json.Unmarshal(m.Payload, &b))
-		fmt.Printf("From Peer:%s Message payload %s Kind of : %d", p.key, b.Hash, m.Kind)
+		var payload blockchain.Block
+		utils.HandleErr(json.Unmarshal(m.Payload, &payload))
+		b, err := blockchain.FindBlock(blockchain.Blockchain().NewestHash)
+		utils.HandleErr(err)
+		if payload.Height >= b.Height {
+			sendRequestAllBlock(p)
+		} else {
+			SendNewestBlock(p)
+		}
+
+	case MessageAllBlocksRequest:
+		sendAllBlocksResponse(p)
+	case MessageAllBlocksResponse:
+		var payload []*blockchain.Block
+		utils.HandleErr(json.Unmarshal(m.Payload, &payload))
+		fmt.Println("payload : ", payload)
+
 	}
 
 }

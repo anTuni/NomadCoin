@@ -1,6 +1,9 @@
 package db
 
 import (
+	"fmt"
+	"os"
+
 	"github.com/anTuni/NomadCoin/utils"
 	bolt "go.etcd.io/bbolt"
 )
@@ -14,9 +17,16 @@ const (
 
 var db *bolt.DB
 
+func getDBname() string {
+	fmt.Println(os.Args)
+	port := os.Args[2]
+	return fmt.Sprintf("blockchain_%s.db", port)
+}
+
 func DB() *bolt.DB {
+
 	if db == nil {
-		dbPointer, err := bolt.Open(dbName, 0600, nil)
+		dbPointer, err := bolt.Open(getDBname(), 0600, nil)
 		db = dbPointer
 		utils.HandleErr(err)
 		err = db.Update(func(t *bolt.Tx) error {
