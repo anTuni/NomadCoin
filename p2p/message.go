@@ -29,14 +29,17 @@ func makeMessage(kind MessageKind, payload interface{}) []byte {
 	return utils.ToJSON(m)
 }
 func sendAllBlocksResponse(p *peer) {
+	fmt.Printf("Sending all blocks Response  to  %s\n", p.key)
 	m := makeMessage(MessageAllBlocksResponse, blockchain.Blocks(blockchain.Blockchain()))
 	p.inbox <- m
 }
 func sendRequestAllBlock(p *peer) {
+	fmt.Printf("Sending Request of all blocks  to  %s\n", p.key)
 	m := makeMessage(MessageAllBlocksRequest, nil)
 	p.inbox <- m
 }
 func SendNewestBlock(p *peer) {
+	fmt.Printf("Sending the Newest block to  %s\n", p.key)
 	block, err := blockchain.FindBlock(blockchain.Blockchain().NewestHash)
 	utils.HandleErr(err)
 	m := makeMessage(MessageNewestBlock, block)
@@ -46,6 +49,7 @@ func SendNewestBlock(p *peer) {
 func handelMsg(m *Message, p *peer) {
 	switch m.Kind {
 	case MessageNewestBlock:
+		fmt.Printf("Recieve the Newest block from  %s\n", p.key)
 		var payload blockchain.Block
 		utils.HandleErr(json.Unmarshal(m.Payload, &payload))
 		b, err := blockchain.FindBlock(blockchain.Blockchain().NewestHash)
@@ -57,12 +61,12 @@ func handelMsg(m *Message, p *peer) {
 		}
 
 	case MessageAllBlocksRequest:
+		fmt.Printf("Recieve the All Blocks request from  %s\n", p.key)
 		sendAllBlocksResponse(p)
 	case MessageAllBlocksResponse:
+		fmt.Printf("Recieve the All Blocks response from  %s\n", p.key)
 		var payload []*blockchain.Block
 		utils.HandleErr(json.Unmarshal(m.Payload, &payload))
-		fmt.Println("payload : ", payload)
-
 	}
 
 }

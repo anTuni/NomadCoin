@@ -1,7 +1,6 @@
 package blockchain
 
 import (
-	"fmt"
 	"sync"
 
 	"github.com/anTuni/NomadCoin/db"
@@ -142,7 +141,6 @@ func Blockchain() *blockchain {
 			if checkpoint == nil {
 				b.AddBlock()
 			} else {
-				fmt.Println("Restoring...")
 				b.restore(checkpoint)
 			}
 		})

@@ -1006,3 +1006,7 @@ Node B will compare Height of Newest block.
 And if payload from node A'height is higher than B, B will request ALL blocks of Node A,
 And Node A will send all blocks to node B
 Node B update Blockchain database with A's all blocks
+
+## 12.25 recap (add console log)
+
+## 12.26
