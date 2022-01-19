@@ -1009,4 +1009,18 @@ Node B update Blockchain database with A's all blocks
 
 ## 12.25 recap (add console log)
 
-## 12.26
+## 12.26 Replace Blocks
+
+0. Update&persist Blockchain ( newest hash,height, difficulty)
+
+1. Empty exist blocks
+
+2. persist all Blocks
+
+Q: Is it Okay? without some veification?
+we just compare height and replace whole blockchain(blocks)
+if the case some node try to cheat(send fake block with extremly high height)
+then how to prevent that node?
+
+Q: I think pointor type just have memory adress isn't it?
+How can we use values by just sendig Pointor.
