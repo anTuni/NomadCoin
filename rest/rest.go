@@ -114,7 +114,7 @@ func block(rw http.ResponseWriter, r *http.Request) {
 	}
 }
 func status(rw http.ResponseWriter, r *http.Request) {
-	json.NewEncoder(rw).Encode(blockchain.Blockchain())
+	utils.HandleErr(json.NewEncoder(rw).Encode(blockchain.Blockchain()))
 }
 
 func balance(rw http.ResponseWriter, r *http.Request) {

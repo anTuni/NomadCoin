@@ -147,7 +147,7 @@ func Blockchain() *blockchain {
 	return b
 }
 
-func Replace(newBlocks []*Block) {
+func (b *blockchain) Replace(newBlocks []*Block) {
 	b.CurrentDifficulty = newBlocks[0].Difficulty
 	b.NewestHash = newBlocks[0].Hash
 	b.Height = len(newBlocks)

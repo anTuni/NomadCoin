@@ -1024,3 +1024,7 @@ then how to prevent that node?
 
 Q: I think pointor type just have memory adress isn't it?
 How can we use values by just sendig Pointor.
+
+## 12.27 prevent data races && Broadcast new block
+
+when access or write same data(variable)
