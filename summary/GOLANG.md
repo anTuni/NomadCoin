@@ -1035,3 +1035,7 @@ send the same data to connected nodes
 * when mining and persist a new block
 
 * send the block to nodes by loop through saved in peers *[]peer
+
+## 12.28 AddPeerBlock
+
+Add new Block from the peer
