@@ -1027,4 +1027,11 @@ How can we use values by just sendig Pointor.
 
 ## 12.27 prevent data races && Broadcast new block
 
-when access or write same data(variable)
+* data races occur when access or write a data(variable)
+
+* Broadcasting
+send the same data to connected nodes
+
+* when mining and persist a new block
+
+* send the block to nodes by loop through saved in peers *[]peer
