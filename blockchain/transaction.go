@@ -2,6 +2,7 @@ package blockchain
 
 import (
 	"errors"
+	"sync"
 	"time"
 
 	"github.com/anTuni/NomadCoin/utils"
@@ -37,14 +38,23 @@ type UTxOut struct {
 
 type mempool struct {
 	Txs []*Tx
+	m   sync.Mutex
 }
 
-var Mempool *mempool = &mempool{}
+var m *mempool
+var memOnce sync.Once
+
+func Mempool() *mempool {
+	memOnce.Do(func() {
+		m = &mempool{}
+	})
+	return m
+}
 
 func isOnMempool(UTxOut *UTxOut) bool {
 	exists := false
 Outer:
-	for _, Tx := range Mempool.Txs {
+	for _, Tx := range Mempool().Txs {
 		for _, input := range Tx.TxIns {
 			if input.TxId == UTxOut.TxId && input.Index == UTxOut.Index {
 				exists = true
@@ -136,13 +146,13 @@ func validate(tx *Tx) bool {
 	}
 	return valid
 }
-func (m *mempool) AddTx(to string, amount int) error {
+func (m *mempool) AddTx(to string, amount int) (*Tx, error) {
 	Tx, err := makeTx(wallet.Wallet().Address, to, amount)
 	if err != nil {
-		return err
+		return nil, err
 	}
 	m.Txs = append(m.Txs, Tx)
-	return nil
+	return Tx, nil
 }
 func (m *mempool) TxsToConfirm() []*Tx {
 	coinbase := makeCoinbaseTx(wallet.Wallet().Address)
@@ -150,4 +160,11 @@ func (m *mempool) TxsToConfirm() []*Tx {
 	Txs = append(Txs, coinbase)
 	m.Txs = nil
 	return Txs
+}
+
+func (m *mempool) AddPeerTx(tx *Tx) {
+	m.m.Lock()
+	defer m.m.Unlock()
+	m.Txs = append(m.Txs, tx)
+
 }

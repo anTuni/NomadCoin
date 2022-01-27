@@ -20,6 +20,7 @@ const (
 	MessageAllBlocksRequest
 	MessageAllBlocksResponse
 	MessageNewBlockNotify
+	MessageNewTxNotify
 )
 
 func makeMessage(kind MessageKind, payload interface{}) []byte {
@@ -50,6 +51,11 @@ func sendNewBlockNotify(b *blockchain.Block, p *peer) {
 	m := makeMessage(MessageNewBlockNotify, b)
 	p.inbox <- m
 }
+func sendNewTxNotify(tx *blockchain.Tx, p *peer) {
+	m := makeMessage(MessageNewTxNotify, tx)
+	p.inbox <- m
+
+}
 func handelMsg(m *Message, p *peer) {
 	switch m.Kind {
 	case MessageNewestBlock:
@@ -76,7 +82,10 @@ func handelMsg(m *Message, p *peer) {
 		var payload *blockchain.Block
 		utils.HandleErr(json.Unmarshal(m.Payload, &payload))
 		blockchain.Blockchain().AddPeerBlock(payload)
-		fmt.Print("MessageNewBlockNotify")
+	case MessageNewTxNotify:
+		var payload *blockchain.Tx
+		utils.HandleErr(json.Unmarshal(m.Payload, &payload))
+		blockchain.Mempool().AddPeerTx(payload)
 	}
 
 }

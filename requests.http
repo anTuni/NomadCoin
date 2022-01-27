@@ -30,10 +30,12 @@ POST http://localhost:4000/transaction
 
 {
     "to":"nico",
-    "amount":60
+    "amount":100
 }
 ###
 http://localhost:4000/mempool
+###
+http://localhost:3000/mempool
 
 ###
 POST http://localhost:4000/peers

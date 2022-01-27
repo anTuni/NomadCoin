@@ -46,7 +46,7 @@ func createBlock(prevHash string, height, diff int) *Block {
 		Nonce:      0,
 	}
 	block.mine()
-	block.Transactions = Mempool.TxsToConfirm()
+	block.Transactions = Mempool().TxsToConfirm()
 	persistBlock(block)
 	return block
 }

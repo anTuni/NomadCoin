@@ -132,20 +132,18 @@ func balance(rw http.ResponseWriter, r *http.Request) {
 }
 
 func mempool(rw http.ResponseWriter, r *http.Request) {
-	utils.HandleErr(json.NewEncoder(rw).Encode(blockchain.Mempool.Txs))
+	utils.HandleErr(json.NewEncoder(rw).Encode(blockchain.Mempool().Txs))
 }
 func transaction(rw http.ResponseWriter, r *http.Request) {
 	var payload addTxPayloads
-	json.NewDecoder(r.Body).Decode(&payload)
-	fmt.Println("payload start")
-	fmt.Print(payload)
-	fmt.Println("payload end")
-	err := blockchain.Mempool.AddTx(payload.To, payload.Amount)
+	utils.HandleErr(json.NewDecoder(r.Body).Decode(&payload))
+	tx, err := blockchain.Mempool().AddTx(payload.To, payload.Amount)
 	if err != nil {
 		rw.WriteHeader(http.StatusBadRequest)
 		json.NewEncoder(rw).Encode(err.Error())
 		return
 	}
+	p2p.BroadcastNewTx(tx)
 	rw.WriteHeader(http.StatusCreated)
 }
 func myWallet(rw http.ResponseWriter, r *http.Request) {
