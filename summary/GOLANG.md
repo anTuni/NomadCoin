@@ -1043,3 +1043,13 @@ Add new Block from the peer
 ## 12.29 Broadcast Transaction
 
 BroadCast new Tx, to Peers
+
+## 12.30 Global Memory pool
+
+A problem is occur when one node empty the mempool by mining the block.
+
+when recieve a block
+remove txs that included in new block(confirmed) from mempool
+
+trans mempool's Txs type to map[string]*Tx
+to delete confirmed Tx by other node.

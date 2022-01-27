@@ -37,7 +37,7 @@ type UTxOut struct {
 }
 
 type mempool struct {
-	Txs []*Tx
+	Txs map[string]*Tx
 	m   sync.Mutex
 }
 
@@ -46,7 +46,9 @@ var memOnce sync.Once
 
 func Mempool() *mempool {
 	memOnce.Do(func() {
-		m = &mempool{}
+		m = &mempool{
+			Txs: make(map[string]*Tx),
+		}
 	})
 	return m
 }
@@ -151,20 +153,23 @@ func (m *mempool) AddTx(to string, amount int) (*Tx, error) {
 	if err != nil {
 		return nil, err
 	}
-	m.Txs = append(m.Txs, Tx)
+	m.Txs[Tx.Id] = Tx
 	return Tx, nil
 }
 func (m *mempool) TxsToConfirm() []*Tx {
 	coinbase := makeCoinbaseTx(wallet.Wallet().Address)
-	Txs := m.Txs
+	var Txs []*Tx
+	for _, tx := range m.Txs {
+		Txs = append(Txs, tx)
+	}
 	Txs = append(Txs, coinbase)
-	m.Txs = nil
+	m.Txs = make(map[string]*Tx)
 	return Txs
 }
 
 func (m *mempool) AddPeerTx(tx *Tx) {
 	m.m.Lock()
 	defer m.m.Unlock()
-	m.Txs = append(m.Txs, tx)
+	m.Txs[tx.Id] = tx
 
 }

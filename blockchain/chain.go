@@ -172,13 +172,21 @@ func (b *blockchain) Replace(newBlocks []*Block) {
 		persistBlock(block)
 	}
 }
-func (b *blockchain) AddPeerBlock(block *Block) {
+func (b *blockchain) AddPeerBlock(newBlock *Block) {
+	Mempool().m.Lock()
+	defer Mempool().m.Unlock()
 	b.m.Lock()
 	defer b.m.Unlock()
 	b.Height += 1
-	b.CurrentDifficulty = block.Difficulty
-	b.NewestHash = block.Hash
+	b.CurrentDifficulty = newBlock.Difficulty
+	b.NewestHash = newBlock.Hash
 	persistBlockchain(b)
-	persistBlock(block)
+	persistBlock(newBlock)
 
+	for _, Tx := range newBlock.Transactions {
+		_, ok := Mempool().Txs[Tx.Id]
+		if ok {
+			delete(Mempool().Txs, Tx.Id)
+		}
+	}
 }
