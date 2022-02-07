@@ -19,6 +19,7 @@ var db *bolt.DB
 
 func getDBname() string {
 	port := os.Args[2]
+	fmt.Println("getDBname", port)
 	return fmt.Sprintf("blockchain_%s.db", port)
 }
 

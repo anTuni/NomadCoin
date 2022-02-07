@@ -3,6 +3,7 @@ package p2p
 import (
 	"encoding/json"
 	"fmt"
+	"strings"
 
 	"github.com/anTuni/NomadCoin/blockchain"
 	"github.com/anTuni/NomadCoin/utils"
@@ -21,6 +22,7 @@ const (
 	MessageAllBlocksResponse
 	MessageNewBlockNotify
 	MessageNewTxNotify
+	MessageNewPeerNotify
 )
 
 func makeMessage(kind MessageKind, payload interface{}) []byte {
@@ -56,6 +58,11 @@ func sendNewTxNotify(tx *blockchain.Tx, p *peer) {
 	p.inbox <- m
 
 }
+func sendNewPeerNotify(payload string, p *peer) {
+	m := makeMessage(MessageNewPeerNotify, payload)
+	p.inbox <- m
+
+}
 func handelMsg(m *Message, p *peer) {
 	switch m.Kind {
 	case MessageNewestBlock:
@@ -86,6 +93,12 @@ func handelMsg(m *Message, p *peer) {
 		var payload *blockchain.Tx
 		utils.HandleErr(json.Unmarshal(m.Payload, &payload))
 		blockchain.Mempool().AddPeerTx(payload)
+	case MessageNewPeerNotify:
+		var payload string
+		utils.HandleErr(json.Unmarshal(m.Payload, &payload))
+		fmt.Printf("New peer's address is \"%s\" ", payload)
+		parts := strings.Split(payload, ":")
+		AddPeers(parts[0], parts[1], parts[2], false)
 	}
 
 }

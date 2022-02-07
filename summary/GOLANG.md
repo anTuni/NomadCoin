@@ -1053,3 +1053,10 @@ remove txs that included in new block(confirmed) from mempool
 
 trans mempool's Txs type to map[string]*Tx
 to delete confirmed Tx by other node.
+
+## 12.31 - 32  Broad casting peers
+
+Broadcast new Peer to existing Peers
+And Add peers when recieve broadcast Peer
+
+payloads have to include new peer's address,port, openPort of who will add peer

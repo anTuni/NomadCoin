@@ -13,6 +13,7 @@ var Upgrader = websocket.Upgrader{}
 
 func Upgrade(rw http.ResponseWriter, r *http.Request) {
 	openPort := r.URL.Query().Get("openPort")
+	fmt.Println("Upgrade r.RemoteAddr", r.RemoteAddr)
 	ip := utils.Splitter(r.RemoteAddr, ":", 0)
 
 	Upgrader.CheckOrigin = func(r *http.Request) bool {
@@ -25,12 +26,15 @@ func Upgrade(rw http.ResponseWriter, r *http.Request) {
 	initPeer(conn, ip, openPort)
 
 }
-func AddPeers(address, port, openPort string) {
+func AddPeers(address, port, openPort string, broadcast bool) {
 
 	fmt.Printf("Port : %s wants to connect to Port : %s\n", openPort, port)
-	conn, _, err := websocket.DefaultDialer.Dial(fmt.Sprintf("ws://%s:%s/ws?openPort=%s", address, port, openPort[1:]), nil)
+	conn, _, err := websocket.DefaultDialer.Dial(fmt.Sprintf("ws://%s:%s/ws?openPort=%s", address, port, openPort), nil)
 	utils.HandleErr(err)
 	p := initPeer(conn, address, port)
+	if broadcast {
+		broadcastNewPeer(p)
+	}
 	SendNewestBlock(p)
 }
 
@@ -46,5 +50,15 @@ func BroadcastNewTx(tx *blockchain.Tx) {
 	defer Peers.m.Unlock()
 	for _, p := range Peers.v {
 		sendNewTxNotify(tx, p)
+	}
+}
+func broadcastNewPeer(newPeer *peer) {
+	Peers.m.Lock()
+	defer Peers.m.Unlock()
+	for key, p := range Peers.v {
+		if key != newPeer.key {
+			payload := fmt.Sprintf("%s:%s", newPeer.key, p.port)
+			sendNewPeerNotify(payload, p)
+		}
 	}
 }
