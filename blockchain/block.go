@@ -19,10 +19,19 @@ type Block struct {
 	Transactions []*Tx  `json:"transactions"`
 }
 
-func persistBlock(b *Block) {
-	db.SaveBlock(b.Hash, utils.ToBytes(b))
+func createBlock(prevHash string, height, diff int) *Block {
+	block := &Block{
+		Hash:       "",
+		PrevHash:   prevHash,
+		Height:     height,
+		Difficulty: diff,
+		Nonce:      0,
+	}
+	block.mine()
+	block.Transactions = Mempool().TxsToConfirm()
+	persistBlock(block)
+	return block
 }
-
 func (b *Block) mine() {
 	target := strings.Repeat("0", b.Difficulty)
 	for {
@@ -37,18 +46,8 @@ func (b *Block) mine() {
 	}
 }
 
-func createBlock(prevHash string, height, diff int) *Block {
-	block := &Block{
-		Hash:       "",
-		PrevHash:   prevHash,
-		Height:     height,
-		Difficulty: diff,
-		Nonce:      0,
-	}
-	block.mine()
-	block.Transactions = Mempool().TxsToConfirm()
-	persistBlock(block)
-	return block
+func persistBlock(b *Block) {
+	db.SaveBlock(b.Hash, utils.ToBytes(b))
 }
 
 var ErrorNotFound error = errors.New("block not found")

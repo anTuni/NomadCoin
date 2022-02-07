@@ -52,20 +52,15 @@ func Mempool() *mempool {
 	})
 	return m
 }
-
-func isOnMempool(UTxOut *UTxOut) bool {
-	exists := false
-Outer:
-	for _, Tx := range Mempool().Txs {
-		for _, input := range Tx.TxIns {
-			if input.TxId == UTxOut.TxId && input.Index == UTxOut.Index {
-				exists = true
-				break Outer
-			}
-		}
+func (m *mempool) TxsToConfirm() []*Tx {
+	coinbase := makeCoinbaseTx(wallet.Wallet().Address)
+	var Txs []*Tx
+	for _, tx := range m.Txs {
+		Txs = append(Txs, tx)
 	}
-	return exists
-
+	Txs = append(Txs, coinbase)
+	m.Txs = make(map[string]*Tx)
+	return Txs
 }
 func makeCoinbaseTx(address string) *Tx {
 	TxIns := []*TxIn{
@@ -82,6 +77,14 @@ func makeCoinbaseTx(address string) *Tx {
 	}
 	t.getId()
 	return &t
+}
+func (m *mempool) AddTx(to string, amount int) (*Tx, error) {
+	Tx, err := makeTx(wallet.Wallet().Address, to, amount)
+	if err != nil {
+		return nil, err
+	}
+	m.Txs[Tx.Id] = Tx
+	return Tx, nil
 }
 
 var ErrorNoMoney = errors.New("not enough money")
@@ -132,39 +135,34 @@ func (t *Tx) sign() {
 		TxIn.Signature = wallet.Sign(t.Id, wallet.Wallet())
 	}
 }
-
-func validate(tx *Tx) bool {
+func validate(t *Tx) bool {
 	valid := true
-	for _, TxIn := range tx.TxIns {
+	for _, TxIn := range t.TxIns {
 		prevTx := FindTx(Blockchain(), TxIn.TxId)
 		if prevTx == nil {
 			valid = false
 			break
 		}
-		valid = wallet.Verify(TxIn.Signature, tx.Id, prevTx.TxOuts[TxIn.Index].Address)
+		valid = wallet.Verify(TxIn.Signature, t.Id, prevTx.TxOuts[TxIn.Index].Address)
 		if !valid {
 			return valid
 		}
 	}
 	return valid
 }
-func (m *mempool) AddTx(to string, amount int) (*Tx, error) {
-	Tx, err := makeTx(wallet.Wallet().Address, to, amount)
-	if err != nil {
-		return nil, err
+func isOnMempool(UTxOut *UTxOut) bool {
+	exists := false
+Outer:
+	for _, Tx := range Mempool().Txs {
+		for _, input := range Tx.TxIns {
+			if input.TxId == UTxOut.TxId && input.Index == UTxOut.Index {
+				exists = true
+				break Outer
+			}
+		}
 	}
-	m.Txs[Tx.Id] = Tx
-	return Tx, nil
-}
-func (m *mempool) TxsToConfirm() []*Tx {
-	coinbase := makeCoinbaseTx(wallet.Wallet().Address)
-	var Txs []*Tx
-	for _, tx := range m.Txs {
-		Txs = append(Txs, tx)
-	}
-	Txs = append(Txs, coinbase)
-	m.Txs = make(map[string]*Tx)
-	return Txs
+	return exists
+
 }
 
 func (m *mempool) AddPeerTx(tx *Tx) {

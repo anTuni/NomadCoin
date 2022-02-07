@@ -24,9 +24,30 @@ type wallet struct {
 
 var w *wallet
 
+func Wallet() *wallet {
+	if w == nil {
+		w = &wallet{}
+		if hasWalletFile() {
+			w.PrivateKey = restorePrivateKey()
+		} else {
+			privKey := createPrivKey()
+			w.PrivateKey = privKey
+			persistPrivKey(privKey)
+		}
+		w.Address = AfromK(w.PrivateKey)
+	}
+	return w
+}
 func hasWalletFile() bool {
 	_, err := os.Stat(fileName)
 	return !os.IsNotExist(err)
+}
+func restorePrivateKey() *ecdsa.PrivateKey {
+	keyAsByte, err := os.ReadFile(fileName)
+	utils.HandleErr(err)
+	key, err := x509.ParseECPrivateKey(keyAsByte)
+	utils.HandleErr(err)
+	return key
 }
 func createPrivKey() *ecdsa.PrivateKey {
 	key, err := ecdsa.GenerateKey(elliptic.P256(), rand.Reader)
@@ -39,19 +60,12 @@ func persistPrivKey(k *ecdsa.PrivateKey) {
 	err = os.WriteFile(fileName, marshaled, 0644)
 	utils.HandleErr(err)
 }
-func restorePrivateKey() *ecdsa.PrivateKey {
-	keyAsByte, err := os.ReadFile(fileName)
-	utils.HandleErr(err)
-	key, err := x509.ParseECPrivateKey(keyAsByte)
-	utils.HandleErr(err)
-	return key
+func AfromK(key *ecdsa.PrivateKey) string {
+	return encodeBigInt(key.X.Bytes(), key.Y.Bytes())
 }
 func encodeBigInt(a, b []byte) string {
 	bytes := append(a, b...)
 	return fmt.Sprintf("%x", bytes)
-}
-func AfromK(key *ecdsa.PrivateKey) string {
-	return encodeBigInt(key.X.Bytes(), key.Y.Bytes())
 }
 func Sign(payload string, w *wallet) string {
 	hashAsByte, err := hex.DecodeString(payload)
@@ -59,22 +73,6 @@ func Sign(payload string, w *wallet) string {
 	r, s, err := ecdsa.Sign(rand.Reader, w.PrivateKey, hashAsByte)
 	utils.HandleErr(err)
 	return encodeBigInt(r.Bytes(), s.Bytes())
-}
-func restoreBIgInt(s string) (*big.Int, *big.Int, error) {
-	bytes, err := hex.DecodeString(s)
-	utils.HandleErr(err)
-	if err != nil {
-		return nil, nil, err
-	}
-
-	ABytes := bytes[:len(bytes)/2]
-	BBytes := bytes[len(bytes)/2:]
-	ABigInt, BBigInt := big.Int{}, big.Int{}
-	ABigInt.SetBytes(ABytes)
-	BBigInt.SetBytes(BBytes)
-
-	return &ABigInt, &BBigInt, nil
-
 }
 func Verify(signiture, payload, publicKey string) bool {
 	r, s, err := restoreBIgInt(signiture)
@@ -94,17 +92,19 @@ func Verify(signiture, payload, publicKey string) bool {
 
 	return ok
 }
-func Wallet() *wallet {
-	if w == nil {
-		w = &wallet{}
-		if hasWalletFile() {
-			w.PrivateKey = restorePrivateKey()
-		} else {
-			privKey := createPrivKey()
-			w.PrivateKey = privKey
-			persistPrivKey(privKey)
-		}
-		w.Address = AfromK(w.PrivateKey)
+func restoreBIgInt(s string) (*big.Int, *big.Int, error) {
+	bytes, err := hex.DecodeString(s)
+	utils.HandleErr(err)
+	if err != nil {
+		return nil, nil, err
 	}
-	return w
+
+	ABytes := bytes[:len(bytes)/2]
+	BBytes := bytes[len(bytes)/2:]
+	ABigInt, BBigInt := big.Int{}, big.Int{}
+	ABigInt.SetBytes(ABytes)
+	BBigInt.SetBytes(BBytes)
+
+	return &ABigInt, &BBigInt, nil
+
 }
