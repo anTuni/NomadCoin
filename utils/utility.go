@@ -1,3 +1,5 @@
+//Package utils contains fuctions used across the application
+//	utils.{function name }
 package utils
 
 import (
@@ -10,11 +12,14 @@ import (
 	"strings"
 )
 
+//Function handling error
 func HandleErr(err error) {
 	if err != nil {
 		log.Panic(err)
 	}
 }
+
+//Fuction ToBytes takes a interface and encode it to slice of byte ans return that
 func ToBytes(i interface{}) []byte {
 	var aBuffer bytes.Buffer
 	encoder := gob.NewEncoder(&aBuffer)

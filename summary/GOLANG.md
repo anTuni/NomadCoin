@@ -1060,3 +1060,15 @@ Broadcast new Peer to existing Peers
 And Add peers when recieve broadcast Peer
 
 payloads have to include new peer's address,port, openPort of who will add peer
+
+## 12. 33 Recap
+
+## 13.1 TESTING
+
+Testing and documenting
+
+document using 'godoc' and comment
+
+TestFunction
+
+ExampleFucntion
