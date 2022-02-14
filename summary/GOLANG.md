@@ -1072,3 +1072,10 @@ document using 'godoc' and comment
 TestFunction
 
 ExampleFucntion
+
+## 13.3 Coverage
+
+Check how our test code cover from all function in a Package
+by command option
+-coverprofile {{filename}}
+ex ) go test -v -coverprofile cover.out ./...
