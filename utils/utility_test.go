@@ -2,6 +2,7 @@ package utils
 
 import (
 	"encoding/hex"
+	"errors"
 	"fmt"
 	"reflect"
 	"testing"
@@ -42,5 +43,42 @@ func TestToBytes(t *testing.T) {
 	t.Logf("Return of function ToByte is a %s", k)
 	if k != reflect.Slice {
 		t.Errorf("Return of function ToByte is not a Slice then is a %s", k)
+	}
+}
+
+func TestSplitter(t *testing.T) {
+	type test struct {
+		s      string
+		sep    string
+		i      int
+		output string
+	}
+	var tests = []test{
+		{s: "0:7:0", sep: ":", i: 1, output: "7"},
+		{s: "070", sep: ":", i: 1, output: ""},
+		{s: "0:7:0", sep: "/", i: 1, output: ""},
+	}
+	for _, test := range tests {
+		out := Splitter(test.s, test.sep, test.i)
+		if out != test.output {
+			t.Errorf("Expected value : %s, function return : %s", test.output, out)
+		}
+	}
+}
+
+func TestHandleErr(t *testing.T) {
+	var lofnBackUp = logfn
+	defer func() {
+		logfn = lofnBackUp
+	}()
+
+	err := errors.New("test")
+	called := false
+	logfn = func(v ...interface{}) {
+		called = true
+	}
+	HandleErr(err)
+	if !called {
+		t.Error("HandleErr not call log.Panic()")
 	}
 }
