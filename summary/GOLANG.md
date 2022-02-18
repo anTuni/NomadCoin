@@ -1080,7 +1080,7 @@ by command option
 -coverprofile {{filename}}
 ex ) go test -v -coverprofile cover.out ./...
 
-# 13.4 Table test
+## 13.4 Table test
 
 When we can have many test cases, we make new type to test that have all arguments and loop for Slice of new type
 
@@ -1088,3 +1088,9 @@ test HandleErr func that have log.Panic line
 ->assign log.Panic func to a variable
 and replace that variable with back up when we test it
 and then test over replace it to original panic function
+
+## 13.5 Full coverage
+
+test FromBytes check and restored variable
+
+Test ToJSON check marshaled value and return type
